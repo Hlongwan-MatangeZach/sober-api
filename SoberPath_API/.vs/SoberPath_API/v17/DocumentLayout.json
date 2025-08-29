@@ -1,0 +1,136 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\models\\next_of_kin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:models\\next_of_kin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\hlong\\pictures\\soberpath_api\\soberpath_api\\migrations\\20250820213912_soberpath0987.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:migrations\\20250820213912_soberpath0987.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Next_of_Kin.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Models\\Next_of_Kin.cs",
+              "RelativeDocumentMoniker": "Models\\Next_of_Kin.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Models\\Next_of_Kin.cs",
+              "RelativeToolTip": "Models\\Next_of_Kin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T07:03:35.77Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClientController.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\ClientController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ClientController.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\ClientController.cs",
+              "RelativeToolTip": "Controllers\\ClientController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T07:00:56.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserManagement.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\UserManagement.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserManagement.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\UserManagement.cs",
+              "RelativeToolTip": "Controllers\\UserManagement.cs",
+              "ViewState": "AgIAADABAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T07:00:40.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-20T21:40:52.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "20250820213912_soberpath0987.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Migrations\\20250820213912_soberpath0987.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250820213912_soberpath0987.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Migrations\\20250820213912_soberpath0987.cs",
+              "RelativeToolTip": "Migrations\\20250820213912_soberpath0987.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T21:39:12.811Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StatsController.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\StatsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StatsController.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Controllers\\StatsController.cs",
+              "RelativeToolTip": "Controllers\\StatsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAM8BAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T21:11:46.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\hlong\\Pictures\\SoberPath_API\\SoberPath_API\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-20T20:16:59.846Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
