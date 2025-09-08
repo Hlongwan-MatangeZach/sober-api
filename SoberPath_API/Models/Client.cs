@@ -5,13 +5,11 @@ using System.Text.Json.Serialization;
 namespace SoberPath_API.Models
 {
     public class Client:User
-    {
-        public string? Location { get; set; }
-        
+    {     
+        //foreigns keys 
         public int? Social_WorkerId { get; set; }
 
-        [JsonIgnore]
-        public List<SessionBooking>? SessionBooking { get; set; }
+
 
         [JsonIgnore]
 
@@ -40,7 +38,8 @@ namespace SoberPath_API.Models
         [JsonIgnore]
         public List<Records>? Records { get; set; }
 
-        
+        [JsonIgnore]
+        public List<Event>? Event { get; set; }
 
 
 

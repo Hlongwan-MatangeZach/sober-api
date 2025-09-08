@@ -13,7 +13,7 @@ namespace SoberPath_API.Models
         public TimeSpan? Duration   { get; set; }
         public string? Session_Note   { get; set; }
 
-
+         //foreign keys
         public int? ClientId { get; set; }
         public int? Social_WorkerId { get; set; }
        

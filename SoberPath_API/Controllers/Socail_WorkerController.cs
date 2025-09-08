@@ -14,156 +14,7 @@ namespace SoberPath_API.Controllers
         
         private readonly Sober_Context _context = context;
 
-        [HttpGet("Get_SW_list")]
-        public async Task<ActionResult<IEnumerable<Social_Worker>>> Get_SW_list()
-        {
-            var sw = await _context.Social_Workers.Select(s=>new {
-                s.Id,
-                s.Name,
-                s.Surname,
-                s.EmailAddress,
-                s.Phone_Number,
-                s.Address,
-                
-            
-            }).ToListAsync();
-            if (sw == null || !sw.Any())
-            {
-                return NotFound();
-            }
-
-            
-            return Ok(sw);
-        }
-
-        [HttpGet("Get_SW_ById/{id}")]
-        public async Task<ActionResult<Social_Worker>> Get_SW_By(int id)
-        {
-            var sw = await _context.Social_Workers.FindAsync(id);
-            if (sw == null)
-            {
-                return NotFound();
-            }
-            return Ok(sw);
-        }
-
-        [HttpPost("Add_SW")]
-        public async Task<ActionResult<Client>> Add_SW(Social_Worker sw)
-        {
-            if (sw == null)
-            {
-                return BadRequest();
-            }
-            _context.Social_Workers.Add(sw);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get_SW_By), new { id = sw.Id }, sw);
-        }
-        [HttpPost("EditSW/{id}")]
-
-        public async Task<ActionResult<Social_Worker>> EditClient(int id, Social_Worker social_Worker)
-        {
-            var found_sw = await _context.Social_Workers.FindAsync(id);
-            if (id > 0 && social_Worker != null)
-            {
-                
-                if (found_sw != null)
-                {
-                    if (social_Worker.Name != null)
-                    {
-                        found_sw.Name = social_Worker.Name;
-
-                    }
-                    if (social_Worker.Surname != null)
-                    {
-                        found_sw.Surname = social_Worker.Surname;
-                    }
-
-                    if (social_Worker.Race != null)
-                    {
-                        found_sw.Race = social_Worker.Race;
-                    }
-
-                    if (social_Worker.Gender != null)
-                    {
-                        found_sw.Gender = social_Worker.Gender;
-                    }
-                    if (social_Worker.Address != null)
-                    {
-                        found_sw.Address = social_Worker.Address;
-
-                    }
-
-                    if (social_Worker.Phone_Number != null)
-                    {
-                        found_sw.Phone_Number = social_Worker.Phone_Number;
-                    }
-
-                    if (social_Worker.EmailAddress != null)
-                    {
-                        found_sw.EmailAddress = social_Worker.EmailAddress;
-
-                    }
-                    if (social_Worker.Password != null)
-                    {
-                        found_sw.Password = social_Worker.Password;
-
-                    }
-
-
-                }
-                else
-                {
-                    BadRequest("Social_Worker not found");
-                }
-
-            }
-            else
-            {
-                BadRequest("ID and Social_Worker objects are null");
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok(found_sw);
-        }
-
-        [HttpDelete("Remove_SW_by/{id}")]
-        public async Task<ActionResult> Remove_SW(int id)
-        {
-            // Load the Social_Worker with ALL related collections
-            var socialWorker = await _context.Social_Workers
-                .Include(sw => sw.Applications)
-                .Include(sw => sw.Client_Assignments)
-                .Include(sw => sw.Sessions)
-                .Include(sw => sw.Social_Worker_Schedules)
-                .Include(sw => sw.Clients)
-                .FirstOrDefaultAsync(sw => sw.Id == id);
-
-            if (socialWorker == null)
-            {
-                return NotFound();
-            }
-
-            // Remove all dependent records
-            _context.Applications.RemoveRange(socialWorker.Applications);
-            _context.ClientAssignments.RemoveRange(socialWorker.Client_Assignments);
-            _context.Sessions.RemoveRange(socialWorker.Sessions);
-            _context.Social_Worker_Schedules.RemoveRange(socialWorker.Social_Worker_Schedules);
-
-            // If Clients should NOT be deleted (just unassigned), set their Social_WorkerId to null
-            foreach (var client in socialWorker.Clients)
-            {
-                client.Social_WorkerId = null; // Unassign clients instead of deleting them
-            }
-
-            // Finally, remove the Social_Worker
-            _context.Social_Workers.Remove(socialWorker);
-
-            await _context.SaveChangesAsync();
-            return Ok("Social Worker Removed Successfully");
-        }
-
         [HttpGet("GetAssignedClients/{id}")]
-
         public async Task<ActionResult<Client>> GetAssignedClients(int id)
         {
             var clients = await _context.Clients.Where(cl => cl.Social_WorkerId == id).ToListAsync();
@@ -174,20 +25,6 @@ namespace SoberPath_API.Controllers
             }
 
             return Ok(clients);
-        }
-
-        [HttpPost("Post_Session")]
-
-        public async Task<ActionResult> Post_Session(Session session)
-        {
-            if(session==null)
-            {
-                return BadRequest();
-            }
-
-            _context.Sessions.Add(session);
-            await _context.SaveChangesAsync();
-            return Ok(session);
         }
 
         [HttpGet("GetSessionsByUser/{userId}")]
@@ -210,22 +47,19 @@ namespace SoberPath_API.Controllers
             return Ok(sessions);
         }
 
-
-
         [HttpPost("Schedule")]
-        public async Task<ActionResult> Set_Schedule(SessionBooking booking)
+        public async Task<ActionResult> Set_Schedule(Event booking)
         {
             if(booking==null)
             {
                 return BadRequest();
             }
-            _context.SessionBookings.Add(booking);
+            _context.Events.Add(booking);
             await _context.SaveChangesAsync();
             return Ok(booking);
         }
 
         [HttpPost("Send_Application")]
-
         public async Task<ActionResult> Send_Application(Application application)
         {
             if(application==null)
@@ -681,17 +515,17 @@ namespace SoberPath_API.Controllers
             var today = DateTime.Today;
             var nextWeek = today.AddDays(7);
 
-            var sessions = await _context.SessionBookings
-                .Where(s => s.Social_WorkerId == socialWorkerId
+            var sessions = await _context.Events
+                .Where(s => s.Social_Id == socialWorkerId
                             )
                 .Select(
                        s => new
                        {
                            s.Id,
-                           s.ClientId,
-                           ClientName = _context.Clients.Where(c => c.Id == s.ClientId).Select(c => c.Name).FirstOrDefault(),
-                           Assignment_Date = s.Assignment_Date,
-                           topic = s.Stype
+                           s.Client_Id,
+                           ClientName = _context.Clients.Where(c => c.Id == s.Client_Id).Select(c => c.Name).FirstOrDefault(),
+                           Assignment_Date = s.Date,
+                           topic = s.Title
 
                        }).ToListAsync();
             return Ok(sessions);
@@ -707,11 +541,11 @@ namespace SoberPath_API.Controllers
 
             searchTerm = searchTerm.Trim().ToLower();
 
-            var clients = await _context.SessionBookings
-                .Where(sb => sb.Social_WorkerId == socialWorkerId)
+            var clients = await _context.Events
+                .Where(sb => sb.Social_Id == socialWorkerId)
                 .Join(
                     _context.Clients,
-                    sb => sb.ClientId,
+                    sb => sb.Client_Id,
                     c => c.Id,
                     (sb, c) => c
                 )

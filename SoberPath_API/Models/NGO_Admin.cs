@@ -8,12 +8,11 @@ namespace SoberPath_API.Models
     public class NGO_Admin:User
     {
 
-        
         [JsonIgnore]
         public List<Client_Assignment>? Client_Assignments { get; set; }
         [JsonIgnore]
 
-        public List<SessionBooking>? SessionBookings { get; set; }
+        public List<Event>? SessionBookings { get; set; }
 
     }
 }

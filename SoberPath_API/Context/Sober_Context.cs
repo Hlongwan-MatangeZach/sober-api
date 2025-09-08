@@ -19,7 +19,6 @@ namespace SoberPath_API.Context
 
         public DbSet<Client_Assignment> ClientAssignments => Set<Client_Assignment>();
 
-        public DbSet<SessionBooking> SessionBookings => Set<SessionBooking>();
 
         public DbSet<Social_Worker_Schedule> Social_Worker_Schedules=>Set<Social_Worker_Schedule>();
 

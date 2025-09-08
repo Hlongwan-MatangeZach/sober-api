@@ -54,8 +54,6 @@ namespace SoberPath_API.Controllers
 
         }
 
-
-
         [HttpPost("Add_Rehab_Admin")]
         public async Task<ActionResult<Rehab_Admin>> Add_Rehab_Admin(Rehab_Admin rehab_Admin)
         {
@@ -67,8 +65,8 @@ namespace SoberPath_API.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetRehab_AdminById), new { id = rehab_Admin.Id }, rehab_Admin);
         }
-        [HttpPost("Edit_Rehab_Admin")]
 
+        [HttpPost("Edit_Rehab_Admin")]
         public async Task<ActionResult<Rehab_Admin>> Edit_Rehab_Admin(int id, Rehab_Admin newAdmin)
         {
             if (id > 0 && newAdmin != null)
@@ -150,72 +148,7 @@ namespace SoberPath_API.Controllers
 
         }
 
-        [HttpGet("GetAllApplications")]
-        public async Task<ActionResult> GetAllApplications()
-        {
-            var applications = await _context.Applications.OrderByDescending(app => app.Id).Where(app => app.Status != null && app.ClientId > 0 && app.ClientId != null).Select(app => new
-            {
-
-                status = app.Status,
-                id = app.Id,
-                clientid = app.ClientId,
-                name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
-                surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
-
-            }).ToListAsync();
-
-            if (applications == null || !applications.Any())
-            {
-                return NotFound("No applications found.");
-            }
-
-            return Ok(applications);
-        }
-
-        [HttpGet("GetSentApplications")]
-        public async Task<ActionResult> GetSentApplications()
-        {
-            var anonymous = await _context.Applications.Where(application => application.Status != null).Select(application => new
-            {
-                status = application.Status,
-                clientid = _context.Clients.Where(cl => application.ClientId == cl.Id).Select(cl => cl.Id).FirstOrDefault(),
-                clientname = _context.Clients.Where(cl => application.ClientId == cl.Id).Select(cl => cl.Name).FirstOrDefault(),
-                clientsurname = _context.Clients.Where(cl => application.ClientId == cl.Id).Select(cl => cl.Surname).FirstOrDefault(),
-
-
-            }).ToListAsync();
-
-            if (anonymous == null)
-            {
-                return NotFound("Applications not found");
-            }
-
-            return Ok(anonymous);
-        }
-
-        [HttpGet("GetApprovedApplications")]
-
-        public async Task<ActionResult> GetApproved()
-        {
-
-            var returnval = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).Select(app => new
-            {
-                id = app.ClientId,
-                Name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
-                surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
-                id_number = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.ID_Number).FirstOrDefault(),
-                Gender = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Gender).FirstOrDefault(),
-                Nok_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == app.ClientId).Select(nok => nok.Name).FirstOrDefault(),
-                Nok_phone = _context.Next_Of_Kins.Where(Nok => Nok.ClientId == app.ClientId).Select(nok => nok.Phone_number).FirstOrDefault()
-            }).ToArrayAsync();
-
-
-            return Ok(returnval);
-        }
-
-
         [HttpPost("Record_progress")]
-
         public async Task<ActionResult> RecordProgress(Rehabilitation_Progress progress)
         {
             if (progress == null)
@@ -232,7 +165,6 @@ namespace SoberPath_API.Controllers
 
 
         [HttpPost("Discharge/{id}/{reason}")]
-
         public async Task<ActionResult> Discharge(int id, string reason)
         {
             var application = await _context.Applications.Where(app => app.Status != null && app.Status.Equals("Approved & Allocated") && app.ClientId == id).FirstOrDefaultAsync();
@@ -242,8 +174,8 @@ namespace SoberPath_API.Controllers
             }
 
             application.Status = "Discharged";
-            application.Discharge_Date = DateTime.Now.Date.ToString();
-            application.Discharge_Reason = reason;
+     //       application.Discharge_Date = DateTime.Now.Date.ToString();
+       //     application.Discharge_Reason = reason;
 
             var room_details = await _context.rooms.Where(r => r.ClientId == application.ClientId).FirstOrDefaultAsync();
             if (room_details != null)
@@ -257,7 +189,6 @@ namespace SoberPath_API.Controllers
 
 
         [HttpPost("AllocaeRoom")]
-
         public async Task<ActionResult> AllocateRoom(Room roomdetails)
         {
             if (roomdetails == null)
@@ -287,9 +218,7 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-
         [HttpGet("Get_OccupiedRooms/{buildingName}")]
-
         public async Task<ActionResult> GetOcuupiedRooms(string buildingName)
         {
             var rooms = await _context.rooms.Where(room => room.ClientId != null && room != null && room.BuildingName == buildingName).Select(room => new
@@ -316,7 +245,6 @@ namespace SoberPath_API.Controllers
 
 
         [HttpPost("SetAllTOPENDING")]
-
         public async Task<ActionResult> SetAllToPending()
         {
             var list = await _context.Applications.ToListAsync();
@@ -337,7 +265,6 @@ namespace SoberPath_API.Controllers
 
 
         [HttpPost("Nullify")]
-
         public async Task<ActionResult> NUllify()
         {
             var list = await _context.Applications.ToListAsync();
@@ -356,24 +283,6 @@ namespace SoberPath_API.Controllers
             return Ok();
         }
 
-        [HttpGet("SW_List")]
-        public async Task<ActionResult> GetSWList()
-        {
-            var returnval = await _context.Social_Workers.Select(sw => new
-            {
-                sw.Id,
-                sw.Name,
-                sw.Surname,
-
-            }).ToListAsync();
-
-            if (returnval == null || !returnval.Any())
-            {
-                return NotFound();
-            }
-
-            return Ok(returnval);
-        }
 
 
     }

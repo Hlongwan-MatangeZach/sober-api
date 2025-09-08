@@ -195,8 +195,6 @@ namespace SoberPath_API.Controllers
         }
 
 
-
-
         [HttpPost]
         public async Task<ActionResult<Substance>> Add_Substance(Substance substance)
         {
@@ -295,9 +293,6 @@ namespace SoberPath_API.Controllers
 
             return NoContent();
         }
-
-
-
 
 
 

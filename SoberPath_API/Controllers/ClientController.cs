@@ -92,7 +92,7 @@ namespace SoberPath_API.Controllers
             // Load the client with ALL related collections
             var client = await _context.Clients
                 .Include(c => c.Next_Of_Kins)
-                .Include(c => c.SessionBooking)
+                .Include(c => c.Event)
                 .Include(c => c.Sessions)
                 .Include(c => c.Substances)
                 .Include(c => c.Rehab_Admission)
@@ -107,7 +107,7 @@ namespace SoberPath_API.Controllers
 
             // Remove all dependent records
             _context.Next_Of_Kins.RemoveRange(client.Next_Of_Kins);
-            _context.SessionBookings.RemoveRange(client.SessionBooking);
+            _context.Events.RemoveRange(client.Event);
             _context.Sessions.RemoveRange(client.Sessions);
             _context.Substances.RemoveRange(client.Substances);
             _context.Rehab_Admissions.RemoveRange(client.Rehab_Admission);
@@ -133,7 +133,6 @@ namespace SoberPath_API.Controllers
 
 
             application.Status = newStatus;
-            application.Update_Comment = comment;
             application.Status_Update_Date = DateTime.Now.Date.ToString();
             await _context.SaveChangesAsync();
             return NoContent();
@@ -430,70 +429,7 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-
-
-        [HttpPost("AddRecords")]
-        public async Task<IActionResult> AddRecording([FromBody] Records recording)
-        {
-            if (recording == null)
-                return BadRequest("Invalid data");
-
-            recording.RecordedDate = recording.RecordedDate;
-            _context.Records.Add(recording);
-            await _context.SaveChangesAsync();
-            return Ok(recording);
-        }
-
-
-        [HttpDelete("DeleteRecord/{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var found = await _context.Records.FindAsync(id);
-            if (found == null)
-                return NotFound();
-
-            _context.Records.Remove(found);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpPost("UpdateRecord/{id}")]
-        public async Task<IActionResult> UpdateRecording(int id, [FromBody] Records updated)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var existing = await _context.Records.FindAsync(id);
-            if (existing == null)
-                return NotFound("Recording not found");
-
-            // Optional safety check
-            if (updated.Id != id)
-                return BadRequest("ID mismatch between URL and body");
-
-            existing.Quantity = updated.Quantity;
-            existing.SubstanceId = updated.SubstanceId;
-            existing.RecordedDate = updated.RecordedDate;
-            existing.ClientId = updated.ClientId;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(existing);
-        }
-
-        [HttpGet("GetRecordByDate/{clientId}/{date}")]
-        public async Task<IActionResult> GetRecordByDate(int clientId, string date)
-        {
-            var records = await _context.Records
-                .Where(r => r.ClientId == clientId && r.RecordedDate == DateOnly.Parse(date))
-                .Select(r => new {
-                    r.SubstanceId,
-                    r.Quantity
-                })
-                .ToListAsync();
-
-            return Ok(records);
-        }
+       
 
         [HttpGet("GetSubstanceTrends/{id}")]
         public async Task<ActionResult<IEnumerable<object>>> GetRecordById(int id)
@@ -524,33 +460,8 @@ namespace SoberPath_API.Controllers
         }
 
 
-        [HttpGet("GetApplicationData/{id}")]
-        public async Task<ActionResult> GetApplocationData(int id)
-        {
-            var application = await _context.Applications.Where(app => app.ClientId == id).FirstOrDefaultAsync();
-            if (application == null)
-            {
-                return NotFound();
-
-            }
-
-            var returnval = new
-            {
-                //id=application.Id,
-                applicationDate = application.Date,
-                reasonForRehab = application.Reason,
-                editableReason = application.RehabReason,
-                summary = application.Summary,
-                addictionLevel = application.Addiction_level,
-                substances = _context.Substances.Where(sub => sub.ClientId == id).Select(sub => sub.Name).ToList(),
-                socialWorkerName = _context.Social_Workers.Where(sw => sw.Id == application.Social_WorkerId).Select(sw => sw.Name).FirstOrDefault(),
-
-            };
-
-            return Ok(returnval);
-        }
+       
         [HttpPost("EditApplicationReason/{clientid}/{value}")]
-
         public async Task<ActionResult> EditApplicationStatus(int clientid, string value)
         {
             var application = await _context.Applications.Where(app => app.ClientId == clientid).FirstOrDefaultAsync();
@@ -559,7 +470,7 @@ namespace SoberPath_API.Controllers
                 return NotFound();
             }
 
-            application.RehabReason = value;
+         //   application.RehabReason = value;
             await _context.SaveChangesAsync();
 
             return NoContent();

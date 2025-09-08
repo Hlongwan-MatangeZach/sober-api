@@ -9,11 +9,9 @@ namespace SoberPath_API.Models
     {
 
 
-        
-
         [JsonIgnore]
 
-        public List<Recieved_Applications>? Recieved_Applications { get; set; }
+        public List<Application>? Recieved_Applications { get; set; }
 
         [JsonIgnore]
         public List<Rehab_Admission>? Rehab_Admissions { get; set; }

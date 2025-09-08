@@ -56,8 +56,6 @@ namespace SoberPath_API.Controllers
             return CreatedAtAction(nameof(GetSession_ByID), session);
         }
 
-
-
         [HttpPut("EditSession{Id}")]
         public async Task<ActionResult<Session>> Edit_Session_Admin(int Id, Session new_session)
         {
@@ -90,7 +88,6 @@ namespace SoberPath_API.Controllers
             return Ok(Session_);
         }
         
-
         [HttpDelete("Remove_Session{Id}")]
         public async Task<ActionResult<Session>> Remove_Session_ByID(int id)
         {
@@ -105,7 +102,20 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-        
+        [HttpPost("Post_Session")]
+        public async Task<ActionResult> Post_Session(Session session)
+        {
+            if (session == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Sessions.Add(session);
+            await _context.SaveChangesAsync();
+            return Ok(session);
+        }
+
+
     }
 }
 
