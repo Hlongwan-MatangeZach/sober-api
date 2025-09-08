@@ -25,6 +25,6 @@ namespace SoberPath_API.Models
         public List<Client>? Clients { get; set; }
 
         [JsonIgnore]
-        public List<Event> Events { get; set; }
+        public List<Event>? Events { get; set; }
     }
 }

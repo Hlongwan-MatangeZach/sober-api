@@ -26,6 +26,9 @@ namespace SoberPath_API.Models
         public string? Status_Update_Date { get; set; }
         public bool? HasRelapse { get; set; }
 
+        [JsonIgnore]
+        public Rehab_Disharge? Rehab_Disharge { get; set; }
+
 
 
 

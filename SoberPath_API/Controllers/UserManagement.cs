@@ -85,6 +85,8 @@ namespace SoberPath_API.Controllers
         [HttpPost("Register_SW")]
         public async Task<ActionResult<Social_Worker>> Register_SW(Social_Worker sw)
         {
+
+
             if (sw == null)
             {
                 return BadRequest();
@@ -95,6 +97,18 @@ namespace SoberPath_API.Controllers
             return CreatedAtAction(nameof(GetClient), new { id = sw.Id }, sw);
 
 
+
+        }
+
+        [HttpGet("GetClients")]
+        public async Task<ActionResult<Client>> GetClients()
+        {
+            var clients = await _context.Clients.ToListAsync();
+            if (clients == null)
+            {
+                return NotFound();
+            }
+            return Ok(clients);
 
         }
 
@@ -244,19 +258,6 @@ namespace SoberPath_API.Controllers
             }
 
             return Ok(found_sub);
-
-        }
-
-
-        [HttpGet("GetClients")]
-        public async Task<ActionResult<Client>> GetClients()
-        {
-            var clients = await _context.Clients.ToListAsync();
-            if (clients == null)
-            {
-                return NotFound();
-            }
-            return Ok(clients);
 
         }
 

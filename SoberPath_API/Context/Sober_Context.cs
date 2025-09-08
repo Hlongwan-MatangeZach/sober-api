@@ -16,7 +16,7 @@ namespace SoberPath_API.Context
 
         public DbSet<Application> Applications => Set<Application>();
 
-
+        public DbSet<Rehab_Disharge> Rehab_disharges=> Set<Rehab_Disharge>();
         public DbSet<Client_Assignment> ClientAssignments => Set<Client_Assignment>();
 
 

@@ -18,7 +18,11 @@ namespace SoberPath_API.Controllers
         [HttpGet("Total_clients_inhouse")]
         public async Task<ActionResult> GetTotalClients_inhouse()
         {
-            var num = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).CountAsync();
+            var num = await _context.Applications.
+                Where(app => app.Status != null && 
+                app.Status == "Approved & Allocated" && 
+                app.ClientId != null
+                ).CountAsync();
 
             if (num <= 0)
             {
@@ -159,7 +163,14 @@ namespace SoberPath_API.Controllers
         [HttpGet("Get_current_approvals")]
         public async Task<ActionResult> GetCurrent_approvals()
         {
-            var dates = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" || app.Status == "Approved" && app.Date != null).Select(app => new
+            var dates = await _context.Applications.
+                Where(
+                app => app.Status != null && 
+                app.Status == "Approved & Allocated" || 
+                app.Status == "Approved" && 
+                app.Date != null
+                
+                ).Select(app => new
             {
                 date = app.Date,
             }).ToListAsync();
@@ -201,34 +212,39 @@ namespace SoberPath_API.Controllers
         [HttpGet("Monthly_Admission_Data")]
         public async Task<ActionResult> GetMonthlyAdmission_Data()
         {
-            var returnval = await _context.Applications.Where(app => app.Status == "Approved & Allocated" || app.Status == "Discharged" && app.ClientId != null && app.Date != null && app.Status_Update_Date != null).Select(app => new
-            {
+            var applications = await _context.Applications
+                .Where(app => (app.Status == "Approved & Allocated" || app.Status == "Discharged")
+                    && app.ClientId != null
+                    && app.Date != null
+                    && app.Status_Update_Date != null)
+                .Select(app => new
+                {
+                    Status = app.Status,
+                    Date_submitted = app.Date,
+                    Status_Update_Date = app.Status_Update_Date,
+                    Discharge_Date = app.Rehab_Disharge != null ? app.Rehab_Disharge.Disharge_Date : null
+                })
+                .ToListAsync();
 
-                Status = app.Status,
-                Date_submitted = app.Date,
-                Status_Update_Date = app.Status_Update_Date,
-                No_admissions = _context.Applications.Where(app => app.Status == "Approved & Allocated").Count(),
-                No_Discharges = _context.Applications.Where(app => app.Status == "Approved & Allocated").Count(),
-
-
-            }).ToListAsync();
-
-            //string[] months = { "Januanry", "February", "March" ,"April","May","June","July","August","September","October","November","December" };
-
-            var result = returnval.GroupBy(obj => obj.Date_submitted!.Substring(5, 2)).Select(g => new {
-                Month = Get_Month(g.Key),
-                No_of_Admissions = g.Where(obj_ => obj_.Status_Update_Date!.Substring(5, 2).Equals(g.Key) && obj_.Status == "Approved & Allocated").Count(),
-                No_of_discharges = g.Where(obj_ => obj_.Status_Update_Date!.Substring(5, 2).Equals(g.Key) && obj_.Status == "Discharged").Count(),
-
-            }).ToList();
-
-
-
+            var result = applications
+                .Where(app => !string.IsNullOrEmpty(app.Date_submitted) && app.Date_submitted.Length >= 7)
+                .GroupBy(obj => obj.Date_submitted.Substring(5, 2)) // Extract month from YYYY-MM-DD format
+                .Select(g => new
+                {
+                    Month = Get_Month(g.Key),
+                    No_of_Admissions = g.Count(obj => obj.Status == "Approved & Allocated"
+                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
+                        && obj.Status_Update_Date.Length >= 7
+                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
+                    No_of_discharges = g.Count(obj => obj.Status == "Discharged"
+                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
+                        && obj.Status_Update_Date.Length >= 7
+                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
+                })
+                .ToList();
 
             return Ok(result);
-
         }
-
 
         private static string Get_Month(string str)
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoberPath_API.Context;
 
@@ -11,9 +12,11 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    partial class Sober_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250908125934_dfsghdjk45678")]
+    partial class dfsghdjk45678
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,10 +278,6 @@ namespace SoberPath_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId")
-                        .IsUnique()
-                        .HasFilter("[ApplicationId] IS NOT NULL");
 
                     b.ToTable("Rehab_disharges");
                 });
@@ -584,13 +583,6 @@ namespace SoberPath_API.Migrations
                         .HasForeignKey("Rehab_AdminId");
                 });
 
-            modelBuilder.Entity("SoberPath_API.Models.Rehab_Disharge", b =>
-                {
-                    b.HasOne("SoberPath_API.Models.Application", null)
-                        .WithOne("Rehab_Disharge")
-                        .HasForeignKey("SoberPath_API.Models.Rehab_Disharge", "ApplicationId");
-                });
-
             modelBuilder.Entity("SoberPath_API.Models.Room", b =>
                 {
                     b.HasOne("SoberPath_API.Models.Client", null)
@@ -628,11 +620,6 @@ namespace SoberPath_API.Migrations
                     b.HasOne("SoberPath_API.Models.Social_Worker", null)
                         .WithMany("Clients")
                         .HasForeignKey("Social_WorkerId");
-                });
-
-            modelBuilder.Entity("SoberPath_API.Models.Application", b =>
-                {
-                    b.Navigation("Rehab_Disharge");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Substance", b =>

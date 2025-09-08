@@ -54,6 +54,23 @@ namespace SoberPath_API.Controllers
             return Ok(Math.Round(returnval, 2));
         }
 
+        //NGO stat to diplay the total number of users(SW,Clients,RehabAdmins,NGOAdmins)
+        [HttpGet("Totals")]
+        public async Task<ActionResult> GetTotals()
+        {
+            var totalClients = await _context.Clients.CountAsync();
+            var totalSocialWorkers = await _context.Social_Workers.CountAsync(); // adjust entity name if different
+            var totalNGOAdmins = await _context.NGO_Admins.CountAsync();
+            var totalRehabAdmins = await _context.Rehab_Admins.CountAsync();
+            return Ok(new
+            {
+                totalClients,
+                totalSocialWorkers,
+                totalNGOAdmins,
+                totalRehabAdmins
+            });
+        }
+
         [HttpGet("Clients_Gender_Stats")]
         public async Task<ActionResult> Get_Client_Stats_byGender()
         {

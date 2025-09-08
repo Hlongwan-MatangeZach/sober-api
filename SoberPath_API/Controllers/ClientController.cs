@@ -149,7 +149,6 @@ namespace SoberPath_API.Controllers
             return Ok(new { clientId, hasApplied });
         }
 
-
         [HttpPost("EditClient/{id}")]
         public async Task<ActionResult<Client>> EditClient(int id, Client newClient)
         {
@@ -227,7 +226,6 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-
         [HttpDelete("Remove_Client_by/{id}")]
         public async Task<ActionResult> RemoveClient(int id)
         {
@@ -257,122 +255,6 @@ namespace SoberPath_API.Controllers
             return CreatedAtAction(nameof(GetClientById), new { id = substance.Id }, substance);
         }
 
-        [HttpPost("ADD_SUBSTANCES")]
-        public async Task<ActionResult<Substance>> Add_Substances(Substance[] substances)
-        {
-            if (substances == null)
-            {
-                return BadRequest();
-            }
-
-            foreach (Substance s in substances)
-            {
-                _context.Substances.Add(s);
-
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
-
-        [HttpGet("Get_Client_Substances/{Id}")]
-
-        public async Task<ActionResult<Substance>> Get_Client_Substance(int Id)
-        {
-            var substances = await _context.Substances.Where(s => s.ClientId == Id).Select(s => new { s.Id, s.Name, s.Description }).ToListAsync();
-            if (substances == null)
-            {
-                return NotFound();
-            }
-
-
-
-            return Ok(substances);
-        }
-
-        [HttpPost("ADD_NOKS")]
-        public async Task<ActionResult<Next_of_Kin>> Add_NOKS_List(Next_of_Kin[] noks)
-        {
-            if (noks == null)
-            {
-                return BadRequest();
-            }
-
-            foreach (Next_of_Kin nok in noks)
-            {
-                _context.Next_Of_Kins.Add(nok);
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
-
-        [HttpPost("Edit_Substance/{clientid}/{substanceid}")]
-        public async Task<ActionResult<Substance>> EditSubstance(int clientid, int substanceid, Substance newSubstance)
-        {
-            var found_substance = await _context.Substances.Where(s => s.Id == substanceid && s.ClientId == clientid).FirstOrDefaultAsync();
-            if (substanceid > 0 && clientid > 0 && newSubstance != null)
-            {
-
-                if (found_substance != null)
-                {
-                    if (newSubstance.Name != null)
-                    {
-                        found_substance.Name = newSubstance.Name;
-                    }
-                    if (newSubstance.Description != null)
-                    {
-                        found_substance.Description = newSubstance.Description;
-                    }
-                    if (newSubstance.ClientId > 0)
-                    {
-                        found_substance.ClientId = newSubstance.ClientId;
-                    }
-                }
-                else
-                {
-                    return BadRequest("Substance not found");
-                }
-            }
-            else
-            {
-                return BadRequest("ID and Substance objects are null");
-            }
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        [HttpDelete("Delete_Substance/{id}")]
-        public async Task<IActionResult> DeleteSubstance(int id)
-        {
-            var substance = await _context.Substances.FindAsync(id);
-            if (substance == null)
-                return NotFound();
-
-            // Delete related records first
-            var relatedRecords = _context.Records.Where(r => r.SubstanceId == id);
-            _context.Records.RemoveRange(relatedRecords);
-
-            _context.Substances.Remove(substance);
-            await _context.SaveChangesAsync();
-
-            return Ok("Substance deleted successfully");
-        }
-
-
-        [HttpGet("Next_of_Kin_list/{Id}")]
-        public async Task<ActionResult<IEnumerable<Next_of_Kin>>> GetNextOfKin(int Id)
-        {
-            var nextOfKins = await _context.Next_Of_Kins
-                .Where(nk => nk.ClientId == Id)
-                .ToListAsync();
-            if (nextOfKins == null || !nextOfKins.Any())
-            {
-                return NotFound();
-            }
-            return Ok(nextOfKins);
-        }
-
         [HttpPost("Add_Next_of_Kin")]
         public async Task<ActionResult<Next_of_Kin>> AddNextOfKin(Next_of_Kin nextOfKin)
         {
@@ -385,82 +267,6 @@ namespace SoberPath_API.Controllers
             return CreatedAtAction(nameof(GetClientById), new { id = nextOfKin.Id }, nextOfKin);
         }
 
-        [HttpPost("Edit_Next_of_Kin/{cliendid}")]
-        public async Task<ActionResult<Next_of_Kin>> EditNextOfKin(int cliendid, Next_of_Kin newNextOfKin)
-        {
-            var found_next_of_kin = await _context.Next_Of_Kins.Where(nk => nk.ClientId == cliendid).FirstOrDefaultAsync();
-            if (cliendid > 0 && newNextOfKin != null)
-            {
-
-                if (found_next_of_kin != null)
-                {
-                    if (newNextOfKin.Name != null)
-                    {
-                        found_next_of_kin.Name = newNextOfKin.Name;
-                    }
-                    if (newNextOfKin.Relationship != null)
-                    {
-                        found_next_of_kin.Relationship = newNextOfKin.Relationship;
-                    }
-                    if (newNextOfKin.Phone_number != null)
-                    {
-                        found_next_of_kin.Phone_number = newNextOfKin.Phone_number;
-                    }
-                }
-                else if (found_next_of_kin == null)
-                {
-                    if (newNextOfKin != null)
-                    {
-                        _context.Next_Of_Kins.Add(newNextOfKin);
-
-                    }
-
-                    await _context.SaveChangesAsync();
-                    return BadRequest("ID and Next of Kin objects are null");
-
-                }
-            }
-            else
-            {
-                return BadRequest("Null input details");
-
-            }
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-       
-
-        [HttpGet("GetSubstanceTrends/{id}")]
-        public async Task<ActionResult<IEnumerable<object>>> GetRecordById(int id)
-        {
-            var substanceReports = await _context.Records
-                .Where(r => r.ClientId == id && r.SubstanceId.HasValue)
-                .Join(
-                    _context.Substances,
-                    record => record.SubstanceId,
-                    substance => substance.Id,
-                    (record, substance) => new { record, substance }
-                )
-                .GroupBy(joined => new { joined.substance.Id, joined.substance.Name })
-                .Select(group => new
-                {
-                    substanceName = group.Key.Name,
-                    records = group.Select(x => new
-                    {
-                        date = x.record.RecordedDate,
-                        quantity = x.record.Quantity
-                    })
-                    .OrderBy(x => x.date)
-                    .ToList()
-                })
-                .ToListAsync();
-
-            return Ok(substanceReports);
-        }
-
-
-       
         [HttpPost("EditApplicationReason/{clientid}/{value}")]
         public async Task<ActionResult> EditApplicationStatus(int clientid, string value)
         {
@@ -475,104 +281,7 @@ namespace SoberPath_API.Controllers
 
             return NoContent();
         }
-
-
-        [HttpGet("GetAddiction/{clientId}")]
-        public async Task<ActionResult<ProgressDto>> GetProgress(int clientId)
-        {
-            // Get substances with their records
-            var substances = await _context.Substances
-                .Include(s => s.Records)
-                .Where(s => s.ClientId == clientId)
-                .ToListAsync();
-
-            if (!substances.Any())
-            {
-                return NotFound("No substances found for this client");
-            }
-
-            // Calculate progress (defaults to current month)
-            var result = CalculateProgress(clientId, substances);
-            return Ok(result);
-        }
-
-     
-        private ProgressDto CalculateProgress(int clientId, List<Substance> substances)
-        {
-            // Always default to current month
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var endDate = startDate.AddMonths(1).AddDays(-1);
-
-            var startDateOnly = DateOnly.FromDateTime(startDate);
-            var endDateOnly = DateOnly.FromDateTime(endDate);
-
-            // Calculate total days once (was missing this variable)
-            var totalDays = (endDate - startDate).Days + 1;
-
-            var result = new ProgressDto
-            {
-                ClientId = clientId,
-                StartDate = startDate,
-                EndDate = endDate,
-                TotalDays = totalDays,
-                SubstanceProgressDetails = new List<SubstanceProgress>() // Initialize the list
-            };
-
-            var successfulDays = new HashSet<DateOnly>();
-            var allDays = Enumerable.Range(0, totalDays)
-                .Select(offset => startDateOnly.AddDays(offset))
-                .ToList();
-
-            foreach (var substance in substances.Where(s => s.Records != null))
-            {
-                var substanceProgress = new SubstanceProgress
-                {
-                    SubstanceId = substance.Id,
-                    SubstanceName = substance.Name,
-                    DaysWithinThreshold = 0,  // Explicit initialization
-                    DaysExceededThreshold = 0
-                };
-
-                var dailyUsage = substance.Records
-                    .Where(r => r.RecordedDate >= startDateOnly &&
-                               r.RecordedDate <= endDateOnly)
-                    .GroupBy(r => r.RecordedDate)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => g.Sum(r => r.Quantity ?? 0)  // Handle null quantities
-                    );
-
-                foreach (var day in allDays)
-                {
-                    if (dailyUsage.TryGetValue(day, out var quantity))
-                    {
-                        if (quantity <= (substance.DailyThreshold ?? 0))
-                        {
-                            successfulDays.Add(day);
-                            substanceProgress.DaysWithinThreshold++;
-                        }
-                        else
-                        {
-                            substanceProgress.DaysExceededThreshold++;
-                        }
-                    }
-                    else
-                    {
-                        successfulDays.Add(day);
-                        substanceProgress.DaysWithinThreshold++;
-                    }
-                }
-
-                result.SubstanceProgressDetails.Add(substanceProgress);
-            }
-
-            result.CompletedDays = successfulDays.Count;
-            result.ProgressPercentage = result.TotalDays > 0
-                ? (double)result.CompletedDays / result.TotalDays * 100
-                : 0;  // Prevent division by zero
-
-            return result;
-        }
+      
     }
 
 

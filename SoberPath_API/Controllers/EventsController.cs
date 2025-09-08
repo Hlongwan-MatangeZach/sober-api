@@ -50,6 +50,7 @@ namespace SoberPath_API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpPost("CreateEvent")]
         public async Task<ActionResult<Event>> CreateEvent(Event calendarEvent)
         {
