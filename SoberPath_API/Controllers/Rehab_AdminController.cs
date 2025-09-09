@@ -167,20 +167,45 @@ namespace SoberPath_API.Controllers
         [HttpPost("Discharge/{id}/{reason}")]
         public async Task<ActionResult> Discharge(int id, string reason)
         {
-            var application = await _context.Applications.Where(app => app.Status != null && app.Status.Equals("Approved & Allocated") && app.ClientId == id).FirstOrDefaultAsync();
+            // Find the approved application for this client
+            var application = await _context.Applications
+                .Include(app => app.Rehab_Disharge) // Include discharge info if it exists
+                .FirstOrDefaultAsync(app =>
+                    app.Status == "Approved & Allocated" &&
+                    app.ClientId == id);
+
             if (application == null)
             {
-                return NotFound();
+                return NotFound("No approved application found for this client");
             }
 
+            // Update application status
             application.Status = "Discharged";
-     //       application.Discharge_Date = DateTime.Now.Date.ToString();
-       //     application.Discharge_Reason = reason;
+            application.Status_Update_Date = DateTime.Now.ToString("yyyy-MM-dd");
 
-            var room_details = await _context.rooms.Where(r => r.ClientId == application.ClientId).FirstOrDefaultAsync();
-            if (room_details != null)
+            // Create or update discharge record
+            if (application.Rehab_Disharge == null)
             {
-                _context.rooms.Remove(room_details);
+                application.Rehab_Disharge = new Rehab_Disharge
+                {
+                    ApplicationId = application.Id,
+                    Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd"),
+                    Disharge_Reason = reason
+                };
+            }
+            else
+            {
+                application.Rehab_Disharge.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
+                application.Rehab_Disharge.Disharge_Reason = reason;
+            }
+
+            // Remove room assignment
+            var roomDetails = await _context.rooms
+                .FirstOrDefaultAsync(r => r.ClientId == application.ClientId);
+
+            if (roomDetails != null)
+            {
+                _context.rooms.Remove(roomDetails);
             }
 
             await _context.SaveChangesAsync();

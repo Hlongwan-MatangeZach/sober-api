@@ -12,9 +12,9 @@
         public string? EndTime { get; set; }
 
         //foreign keys 
-        public int Social_Id { get; set; }
-        public int Client_Id { get; set; }
-        public int NGO_Id { get; set; }
+        public int? Social_Id { get; set; }
+        public int? Client_Id { get; set; }
+        public int? NGO_Id { get; set; }
 
     }
 }

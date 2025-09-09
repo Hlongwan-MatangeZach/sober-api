@@ -50,13 +50,21 @@ namespace SoberPath_API.Controllers
         [HttpPost("Schedule")]
         public async Task<ActionResult> Set_Schedule(Event booking)
         {
-            if(booking==null)
+            if (booking == null)
             {
-                return BadRequest();
+                return BadRequest("Booking data is required");
             }
-            _context.Events.Add(booking);
-            await _context.SaveChangesAsync();
-            return Ok(booking);
+
+            try
+            {
+                _context.Events.Add(booking);
+                await _context.SaveChangesAsync();
+                return Ok(booking);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpPost("Send_Application")]
