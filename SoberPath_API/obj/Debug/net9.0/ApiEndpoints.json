@@ -1636,6 +1636,308 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetAverageNumber",
+    "RelativePath": "api/Stats/Ave_No._Clients__per_SW",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_Client_Stats_byGender",
+    "RelativePath": "api/Stats/Clients_Gender_Stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_Client_RaceStats",
+    "RelativePath": "api/Stats/Clients_Race_Stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_ClientsStatusTrend_Data",
+    "RelativePath": "api/Stats/Clients_Status_Trend_LineGraph",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "CreateApplication",
+    "RelativePath": "api/Stats/CreateApplication",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "date",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "comments",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "reason",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "summary",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "addiction_level",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "substance_type",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "clientId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "social_workerId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "CreateEvent",
+    "RelativePath": "api/Stats/CreateEvent",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "calendarEvent",
+        "Type": "SoberPath_API.Models.Event",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SoberPath_API.Models.Event",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "DeleteEvent",
+    "RelativePath": "api/Stats/DeleteEvent/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "DownloadFile",
+    "RelativePath": "api/Stats/DownloadFile/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_GenderPercentage",
+    "RelativePath": "api/Stats/Gender_percentage",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_current_month_applications",
+    "RelativePath": "api/Stats/Get_curent_month_applications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetCurrent_approvals",
+    "RelativePath": "api/Stats/Get_current_approvals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetEventsByDate",
+    "RelativePath": "api/Stats/GetDayEvents/{socialId}/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "socialId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Models.Event, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetEventsByMonth",
+    "RelativePath": "api/Stats/GetMonthlyEvents/{socialId}/{month}/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "socialId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "month",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "year",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Models.Event, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetThresholdStats",
+    "RelativePath": "api/Stats/GetThresholdStats/{clientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Models.ThresholdStatsDto, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
     "Method": "GetWeeklyStats",
     "RelativePath": "api/Stats/GetWeeklyStats/{clientId}",
     "HttpMethod": "GET",
@@ -1672,6 +1974,57 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetMonthlyAdmission_Data",
+    "RelativePath": "api/Stats/Monthly_Admission_Data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetMostUsedSubstances",
+    "RelativePath": "api/Stats/MostUsedSubstances",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "top",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "includeTies",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Controllers.StatsController\u002BSubstanceCountDto, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_pendingapplication",
+    "RelativePath": "api/Stats/Pending_Applications",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
     "Method": "GetProcessingTime_Data",
     "RelativePath": "api/Stats/ProcesscingTime_Data",
     "HttpMethod": "GET",
@@ -1682,8 +2035,68 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_ProcessingTrend",
+    "RelativePath": "api/Stats/Processing_Trend_Data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
     "Method": "GetRecoveryTrend_Data",
     "RelativePath": "api/Stats/Recovery_Trend_Data",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetSubstanceStatsByGenderForSocialWorkers",
+    "RelativePath": "api/Stats/SubstanceByGenderForSocialWorkers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "Get_SWvsClients",
+    "RelativePath": "api/Stats/SWvsClienst_GraphData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetTotalClients",
+    "RelativePath": "api/Stats/Total_clients_history",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetTotalClients_inhouse",
+    "RelativePath": "api/Stats/Total_clients_inhouse",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsController",
+    "Method": "GetTotals",
+    "RelativePath": "api/Stats/Totals",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1771,7 +2184,47 @@
   {
     "ContainingType": "SoberPath_API.Controllers.StatsNAController",
     "Method": "GetAverageNumber",
+    "RelativePath": "api/StatsNA/Ave_No_Clients_per_SW",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Double",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsNAController",
+    "Method": "GetAverageNumber_OldAlias",
     "RelativePath": "api/StatsNA/Ave_No._Clients__per_SW",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Double",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsNAController",
+    "Method": "Get_Client_Stats_byGender",
+    "RelativePath": "api/StatsNA/Clients_Gender_Stats",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1780,8 +2233,18 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsNAController",
-    "Method": "Get_Client_Stats_byGender",
-    "RelativePath": "api/StatsNA/Clients_Gender_Stats",
+    "Method": "Get_ClientsStatusTrend_Data",
+    "RelativePath": "api/StatsNA/Clients_Status_Trend_LineGraph",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsNAController",
+    "Method": "Get_LocationvsClients",
+    "RelativePath": "api/StatsNA/LocationvsClients_GraphData",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1821,8 +2284,28 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsNAController",
-    "Method": "Get_SWvsClients",
+    "Method": "GetSubstanceStatsByGenderForSocialWorkers",
+    "RelativePath": "api/StatsNA/SubstanceByGenderForSocialWorkers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsNAController",
+    "Method": "Get_SWvsClients_OldAlias",
     "RelativePath": "api/StatsNA/SWvsClienst_GraphData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsNAController",
+    "Method": "Get_SWvsClients",
+    "RelativePath": "api/StatsNA/SWvsClients_GraphData",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
