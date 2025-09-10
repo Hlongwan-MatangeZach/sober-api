@@ -48,8 +48,14 @@ namespace SoberPath_API.Migrations
                     b.Property<bool?>("HasRelapse")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Rehab_AdminID")
                         .HasColumnType("int");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");

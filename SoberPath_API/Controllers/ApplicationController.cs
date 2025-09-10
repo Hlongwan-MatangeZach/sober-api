@@ -20,7 +20,7 @@ namespace SoberPath_API.Controllers
             {
 
                 status = app.Status,
-                id = app.Id,
+                id = app.ClientId,
                 clientid = app.ClientId,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
                 surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
@@ -57,23 +57,33 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpGet("GetApprovedApplications")]
+
         public async Task<ActionResult> GetApproved()
         {
 
-            var returnval = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).Select(app => new
+            var anonymous = await _context.Applications.Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
+            application.Status != null && application.Status.Equals("Approved & Allocated")).Select(application => new
             {
-                id = app.ClientId,
-                Name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
-                surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
-                id_number = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.ID_Number).FirstOrDefault(),
-                Gender = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Gender).FirstOrDefault(),
-                Nok_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == app.ClientId).Select(nok => nok.Name).FirstOrDefault(),
-                Nok_Surname = _context.Next_Of_Kins.Where(nok => nok.ClientId == app.ClientId).Select(nok => nok.Surname).FirstOrDefault(),
-                Nok_phone = _context.Next_Of_Kins.Where(Nok => Nok.ClientId == app.ClientId).Select(nok => nok.Phone_number).FirstOrDefault()
-            }).ToArrayAsync();
+
+                Name = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Name).FirstOrDefault(),
+                Surname = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
+                ID_number = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.ID_Number).FirstOrDefault(),
+                Gender = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Gender).FirstOrDefault(),
+                NOK_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Name).FirstOrDefault(),
+                NOK_Phone = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Phone_number).FirstOrDefault(),
+                id = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Id).FirstOrDefault(),
 
 
-            return Ok(returnval);
+
+
+            }).ToListAsync();
+
+            if (anonymous == null)
+            {
+                return NotFound("Applications not found");
+            }
+
+            return Ok(anonymous);
         }
 
         [HttpGet("GetApplicationData/{id}")]
@@ -88,12 +98,14 @@ namespace SoberPath_API.Controllers
 
             var returnval = new
             {
-                //id=application.Id,
+                id = application.Id,
                 applicationDate = application.Date,
+                editableReason = application.RejectionReason,
                 summary = application.Summary,
                 substances = _context.Substances.Where(sub => sub.ClientId == id).Select(sub => sub.Name).ToList(),
                 socialWorkerName = _context.Social_Workers.Where(sw => sw.Id == application.Social_WorkerId).Select(sw => sw.Name).FirstOrDefault(),
-
+                fileName = application.FileName,
+                content = application.Data
             };
 
             return Ok(returnval);

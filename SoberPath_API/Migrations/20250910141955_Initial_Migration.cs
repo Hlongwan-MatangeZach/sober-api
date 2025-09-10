@@ -6,11 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoberPath_API.Migrations
 {
     /// <inheritdoc />
-    public partial class sober1 : Migration
+    public partial class Initial_Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Rehabilitation_Progresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Progress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rehabilitation_Progresses", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -46,15 +61,17 @@ namespace SoberPath_API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Addiction_level = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Substance_type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: true),
                     Social_WorkerId = table.Column<int>(type: "int", nullable: true),
-                    FilePaths = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Rehab_AdminID = table.Column<int>(type: "int", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: true),
+                    Status_Update_Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HasRelapse = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,6 +79,11 @@ namespace SoberPath_API.Migrations
                     table.ForeignKey(
                         name: "FK_Applications_Users_ClientId",
                         column: x => x.ClientId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Applications_Users_Rehab_AdminID",
+                        column: x => x.Rehab_AdminID,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -103,12 +125,51 @@ namespace SoberPath_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Social_Id = table.Column<int>(type: "int", nullable: true),
+                    Client_Id = table.Column<int>(type: "int", nullable: true),
+                    NGO_Id = table.Column<int>(type: "int", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    NGO_AdminId = table.Column<int>(type: "int", nullable: true),
+                    Social_WorkerId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_Users_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Events_Users_NGO_AdminId",
+                        column: x => x.NGO_AdminId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Events_Users_Social_WorkerId",
+                        column: x => x.Social_WorkerId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Next_Of_Kins",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Relationship = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: true)
@@ -154,27 +215,22 @@ namespace SoberPath_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SessionBookings",
+                name: "rooms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Social_WorkerId = table.Column<int>(type: "int", nullable: true),
-                    NGO_AdminId = table.Column<int>(type: "int", nullable: true),
-                    ClientId = table.Column<int>(type: "int", nullable: true),
-                    Assignment_Date = table.Column<DateOnly>(type: "date", nullable: false)
+                    BuildingName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AllocatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SessionBookings", x => x.Id);
+                    table.PrimaryKey("PK_rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SessionBookings_Users_ClientId",
+                        name: "FK_rooms_Users_ClientId",
                         column: x => x.ClientId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SessionBookings_Users_NGO_AdminId",
-                        column: x => x.NGO_AdminId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -236,7 +292,9 @@ namespace SoberPath_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClientId = table.Column<int>(type: "int", nullable: true)
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    DailyThreshold = table.Column<double>(type: "float", nullable: true),
+                    unit = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -249,26 +307,47 @@ namespace SoberPath_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Recieved_Applications",
+                name: "Rehab_disharges",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rehab_AdminId = table.Column<int>(type: "int", nullable: true),
                     ApplicationId = table.Column<int>(type: "int", nullable: true),
-                    Processing_Date = table.Column<DateOnly>(type: "date", nullable: true)
+                    Disharge_Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Disharge_Reason = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Recieved_Applications", x => x.Id);
+                    table.PrimaryKey("PK_Rehab_disharges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recieved_Applications_Applications_ApplicationId",
+                        name: "FK_Rehab_disharges_Applications_ApplicationId",
                         column: x => x.ApplicationId,
                         principalTable: "Applications",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Records",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RecordedDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    Quantity = table.Column<double>(type: "float", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    SubstanceId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Records", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recieved_Applications_Users_Rehab_AdminId",
-                        column: x => x.Rehab_AdminId,
+                        name: "FK_Records_Substances_SubstanceId",
+                        column: x => x.SubstanceId,
+                        principalTable: "Substances",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Records_Users_ClientId",
+                        column: x => x.ClientId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -277,6 +356,11 @@ namespace SoberPath_API.Migrations
                 name: "IX_Applications_ClientId",
                 table: "Applications",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_Rehab_AdminID",
+                table: "Applications",
+                column: "Rehab_AdminID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_Social_WorkerId",
@@ -299,19 +383,34 @@ namespace SoberPath_API.Migrations
                 column: "Social_WorkerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Events_ClientId",
+                table: "Events",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_NGO_AdminId",
+                table: "Events",
+                column: "NGO_AdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_Social_WorkerId",
+                table: "Events",
+                column: "Social_WorkerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Next_Of_Kins_ClientId",
                 table: "Next_Of_Kins",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recieved_Applications_ApplicationId",
-                table: "Recieved_Applications",
-                column: "ApplicationId");
+                name: "IX_Records_ClientId",
+                table: "Records",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Recieved_Applications_Rehab_AdminId",
-                table: "Recieved_Applications",
-                column: "Rehab_AdminId");
+                name: "IX_Records_SubstanceId",
+                table: "Records",
+                column: "SubstanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rehab_Admissions_ClientId",
@@ -324,14 +423,18 @@ namespace SoberPath_API.Migrations
                 column: "Rehab_AdminId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SessionBookings_ClientId",
-                table: "SessionBookings",
-                column: "ClientId");
+                name: "IX_Rehab_disharges_ApplicationId",
+                table: "Rehab_disharges",
+                column: "ApplicationId",
+                unique: true,
+                filter: "[ApplicationId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SessionBookings_NGO_AdminId",
-                table: "SessionBookings",
-                column: "NGO_AdminId");
+                name: "IX_rooms_ClientId",
+                table: "rooms",
+                column: "ClientId",
+                unique: true,
+                filter: "[ClientId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sessions_ClientId",
@@ -366,16 +469,25 @@ namespace SoberPath_API.Migrations
                 name: "ClientAssignments");
 
             migrationBuilder.DropTable(
+                name: "Events");
+
+            migrationBuilder.DropTable(
                 name: "Next_Of_Kins");
 
             migrationBuilder.DropTable(
-                name: "Recieved_Applications");
+                name: "Records");
 
             migrationBuilder.DropTable(
                 name: "Rehab_Admissions");
 
             migrationBuilder.DropTable(
-                name: "SessionBookings");
+                name: "Rehab_disharges");
+
+            migrationBuilder.DropTable(
+                name: "Rehabilitation_Progresses");
+
+            migrationBuilder.DropTable(
+                name: "rooms");
 
             migrationBuilder.DropTable(
                 name: "Sessions");

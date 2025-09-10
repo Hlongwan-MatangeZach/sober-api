@@ -18,11 +18,7 @@ namespace SoberPath_API.Controllers
         [HttpGet("Total_clients_inhouse")]
         public async Task<ActionResult> GetTotalClients_inhouse()
         {
-            var num = await _context.Applications.
-                Where(app => app.Status != null && 
-                app.Status == "Approved & Allocated" && 
-                app.ClientId != null
-                ).CountAsync();
+            var num = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).CountAsync();
 
             if (num <= 0)
             {
@@ -89,6 +85,7 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpGet("Clients_Race_Stats")]
+
         public async Task<ActionResult> Get_Client_RaceStats()
         {
             var sumclients = await _context.Clients.CountAsync();
@@ -125,52 +122,73 @@ namespace SoberPath_API.Controllers
         [HttpGet("Processing_Trend_Data")]
         public async Task<ActionResult> Get_ProcessingTrend()
         {
-
-            var returnval = await _context.Applications.Where(app_ => app_.Status_Update_Date != null && app_.Date != null && (app_.Status == "Approved" || app_.Status == "Pending" || app_.Status == "Rejected" || app_.Status == "Approved & Allocated" && app_.Status_Update_Date != null && app_.Date != null)).Select(app => new
-            {
-                Status = app.Status,
-                Creation_date = app.Date,
-                Update_date = app.Status_Update_Date,
-
-            }).ToListAsync();
-
-            var result = returnval.GroupBy(obj => obj.Status).Select(g => new
-            {
-                id = g.Key,
-                data = g.Select(obj => new
+            var applications = await _context.Applications
+                .Where(app => app.Status_Update_Date != null
+                        && app.Date != null
+                        && (app.Status == "Approved"
+                            || app.Status == "Pending"
+                            || app.Status == "Rejected"
+                            || app.Status == "Approved & Allocated"))
+                .Select(app => new
                 {
-                    month_num = obj.Creation_date.Substring(5, 2),
-                    Count_number = DateTime.Parse(obj.Update_date).Subtract(DateTime.Parse(obj.Creation_date)).TotalDays,
+                    Status = app.Status,
+                    Creation_date = app.Date,
+                    Update_date = app.Status_Update_Date,
+                })
+                .ToListAsync();
 
+            // Create a list of all months (01 to 12)
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
 
+            // Get the target statuses
+            var targetStatuses = new List<string> { "Approved", "Pending", "Rejected", "Approved & Allocated" };
 
-                }).GroupBy(obj => obj.month_num).Select(g => new
+            // Process the data and calculate processing days
+            var processedData = applications
+                .Select(app => new
                 {
-                    x = Get_Month(g.Key),
-                    y = g.Average(obj => obj.Count_number)
-                }).ToList(),
-            }).ToList();
+                    Status = app.Status,
+                    CreationDate = app.Creation_date,
+                    UpdateDate = app.Update_date,
+                    ProcessingDays = (DateTime.Parse(app.Update_date!) - DateTime.Parse(app.Creation_date!)).TotalDays,
+                    MonthNumber = app.Creation_date!.Substring(5, 2)
+                })
+                .Where(x => x.ProcessingDays >= 0) // Only include valid time spans
+                .ToList();
 
+            // Group by status and month
+            var groupedData = processedData
+                .GroupBy(x => x.Status)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.GroupBy(x => x.MonthNumber)
+                          .ToDictionary(gg => gg.Key, gg => gg.Average(item => item.ProcessingDays))
+                );
 
-
-
-
+            // Build the result with all months included for each status
+            var result = targetStatuses
+                .Select(status => new
+                {
+                    id = status,
+                    data = allMonths.Select(month => new
+                    {
+                        x = Get_Month(month),
+                        y = groupedData.ContainsKey(status) && groupedData[status].ContainsKey(month)
+                            ? Math.Round(groupedData[status][month], 2)
+                            : 0
+                    }).ToList()
+                })
+                .ToList();
 
             return Ok(result);
-
         }
 
         [HttpGet("Get_current_approvals")]
         public async Task<ActionResult> GetCurrent_approvals()
         {
-            var dates = await _context.Applications.
-                Where(
-                app => app.Status != null && 
-                app.Status == "Approved & Allocated" || 
-                app.Status == "Approved" && 
-                app.Date != null
-                
-                ).Select(app => new
+            var dates = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" || app.Status == "Approved" && app.Date != null).Select(app => new
             {
                 date = app.Date,
             }).ToListAsync();
@@ -196,6 +214,7 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpGet("Get_curent_month_applications")]
+
         public async Task<ActionResult> Get_current_month_applications()
         {
             var returnval = await _context.Applications.Where(app => app.ClientId != null && app.Status != null && app.Date != null).Select(app => new
@@ -212,34 +231,44 @@ namespace SoberPath_API.Controllers
         [HttpGet("Monthly_Admission_Data")]
         public async Task<ActionResult> GetMonthlyAdmission_Data()
         {
+            // Get the relevant data from database
             var applications = await _context.Applications
                 .Where(app => (app.Status == "Approved & Allocated" || app.Status == "Discharged")
-                    && app.ClientId != null
-                    && app.Date != null
-                    && app.Status_Update_Date != null)
+                        && app.ClientId != null
+                        && app.Date != null
+                        && app.Status_Update_Date != null)
                 .Select(app => new
                 {
                     Status = app.Status,
-                    Date_submitted = app.Date,
-                    Status_Update_Date = app.Status_Update_Date,
-                    Discharge_Date = app.Rehab_Disharge != null ? app.Rehab_Disharge.Disharge_Date : null
+                    DateSubmitted = app.Date,
+                    StatusUpdateDate = app.Status_Update_Date,
+                    DischargeDate = _context.Rehab_disharges.Where(ds=>ds.ApplicationId==app.Id).Select(ds=>ds.Disharge_Reason).FirstOrDefault()
                 })
                 .ToListAsync();
 
-            var result = applications
-                .Where(app => !string.IsNullOrEmpty(app.Date_submitted) && app.Date_submitted.Length >= 7)
-                .GroupBy(obj => obj.Date_submitted.Substring(5, 2)) // Extract month from YYYY-MM-DD format
-                .Select(g => new
+            // Create a list of all months (01 to 12)
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
+
+            // Group admissions and discharges by month
+            var admissionsByMonth = applications
+                .Where(app => app.Status == "Approved & Allocated" && app.StatusUpdateDate != null)
+                .GroupBy(app => app.StatusUpdateDate!.Substring(5, 2))
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var dischargesByMonth = applications
+                .Where(app => app.Status == "Discharged" && app.StatusUpdateDate != null)
+                .GroupBy(app => app.StatusUpdateDate!.Substring(5, 2))
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            // Build the result with all months included
+            var result = allMonths
+                .Select(month => new
                 {
-                    Month = Get_Month(g.Key),
-                    No_of_Admissions = g.Count(obj => obj.Status == "Approved & Allocated"
-                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
-                        && obj.Status_Update_Date.Length >= 7
-                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
-                    No_of_discharges = g.Count(obj => obj.Status == "Discharged"
-                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
-                        && obj.Status_Update_Date.Length >= 7
-                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
+                    Month = Get_Month(month),
+                    No_of_Admissions = admissionsByMonth.ContainsKey(month) ? admissionsByMonth[month] : 0,
+                    No_of_Discharges = dischargesByMonth.ContainsKey(month) ? dischargesByMonth[month] : 0
                 })
                 .ToList();
 

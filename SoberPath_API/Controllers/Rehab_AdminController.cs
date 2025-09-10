@@ -149,6 +149,7 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpPost("Record_progress")]
+
         public async Task<ActionResult> RecordProgress(Rehabilitation_Progress progress)
         {
             if (progress == null)
@@ -164,49 +165,26 @@ namespace SoberPath_API.Controllers
         }
 
 
-        [HttpPost("Discharge/{id}/{reason}")]
-        public async Task<ActionResult> Discharge(int id, string reason)
-        {
-            // Find the approved application for this client
-            var application = await _context.Applications
-                .Include(app => app.Rehab_Disharge) // Include discharge info if it exists
-                .FirstOrDefaultAsync(app =>
-                    app.Status == "Approved & Allocated" &&
-                    app.ClientId == id);
+        [HttpPost("Discharge/{id}/{value}")]
 
+        public async Task<ActionResult> Discharge(int id, string value)
+        {
+            var application = await _context.Applications.Where(app => app.Status != null && app.ClientId == id).FirstOrDefaultAsync();
             if (application == null)
             {
-                return NotFound("No approved application found for this client");
+                return NotFound();
             }
 
-            // Update application status
             application.Status = "Discharged";
-            application.Status_Update_Date = DateTime.Now.ToString("yyyy-MM-dd");
 
-            // Create or update discharge record
-            if (application.Rehab_Disharge == null)
+            var reason =await _context.Rehab_disharges.Where(ds=>ds.ApplicationId == id).FirstOrDefaultAsync();
+            if(reason == null)
             {
-                application.Rehab_Disharge = new Rehab_Disharge
-                {
-                    ApplicationId = application.Id,
-                    Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd"),
-                    Disharge_Reason = reason
-                };
-            }
-            else
-            {
-                application.Rehab_Disharge.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
-                application.Rehab_Disharge.Disharge_Reason = reason;
+                return NotFound();
             }
 
-            // Remove room assignment
-            var roomDetails = await _context.rooms
-                .FirstOrDefaultAsync(r => r.ClientId == application.ClientId);
-
-            if (roomDetails != null)
-            {
-                _context.rooms.Remove(roomDetails);
-            }
+            reason.Disharge_Reason=value;
+            reason.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -214,6 +192,7 @@ namespace SoberPath_API.Controllers
 
 
         [HttpPost("AllocaeRoom")]
+
         public async Task<ActionResult> AllocateRoom(Room roomdetails)
         {
             if (roomdetails == null)
@@ -306,6 +285,20 @@ namespace SoberPath_API.Controllers
 
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPost("Set_Application_Read/{id}")]
+        public async Task<ActionResult> Set_Isead(int id)
+        {
+            var find_app = await _context.Applications.Where(app => app.Id == id).FirstOrDefaultAsync();
+            if (find_app == null)
+            {
+                return NotFound();
+            }
+
+            find_app.IsRead = true;
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
 

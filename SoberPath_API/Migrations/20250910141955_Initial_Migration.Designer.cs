@@ -12,8 +12,8 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    [Migration("20250814083548_sgdgfjvgcgxvtsv7")]
-    partial class sgdgfjvgcgxvtsv7
+    [Migration("20250910141955_Initial_Migration")]
+    partial class Initial_Migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,32 +33,29 @@ namespace SoberPath_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Addiction_level")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Comments")
+                    b.Property<string>("ContentType")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discharge_Date")
+                    b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discharge_Reason")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("HasRelapse")
+                        .HasColumnType("bit");
 
-                    b.PrimitiveCollection<string>("FilePaths")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Reason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rehab_Reson")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Rehab_AdminID")
+                        .HasColumnType("int");
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");
@@ -66,18 +63,17 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Substance_type")
+                    b.Property<string>("Status_Update_Date")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("hasRelapse")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("Rehab_AdminID");
 
                     b.HasIndex("Social_WorkerId");
 
@@ -115,6 +111,58 @@ namespace SoberPath_API.Migrations
                     b.ToTable("ClientAssignments");
                 });
 
+            modelBuilder.Entity("SoberPath_API.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Client_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EndTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NGO_AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NGO_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Social_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Social_WorkerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StartTime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("NGO_AdminId");
+
+                    b.HasIndex("Social_WorkerId");
+
+                    b.ToTable("Events");
+                });
+
             modelBuilder.Entity("SoberPath_API.Models.Next_of_Kin", b =>
                 {
                     b.Property<int>("Id")
@@ -135,37 +183,14 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("Relationship")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
                     b.ToTable("Next_Of_Kins");
-                });
-
-            modelBuilder.Entity("SoberPath_API.Models.Recieved_Applications", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateOnly?>("Processing_Date")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("Rehab_AdminId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.HasIndex("Rehab_AdminId");
-
-                    b.ToTable("Recieved_Applications");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Records", b =>
@@ -187,9 +212,6 @@ namespace SoberPath_API.Migrations
 
                     b.Property<int?>("SubstanceId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -239,6 +261,32 @@ namespace SoberPath_API.Migrations
                     b.HasIndex("Rehab_AdminId");
 
                     b.ToTable("Rehab_Admissions");
+                });
+
+            modelBuilder.Entity("SoberPath_API.Models.Rehab_Disharge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Disharge_Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Disharge_Reason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId")
+                        .IsUnique()
+                        .HasFilter("[ApplicationId] IS NOT NULL");
+
+                    b.ToTable("Rehab_disharges");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Rehabilitation_Progress", b =>
@@ -325,35 +373,6 @@ namespace SoberPath_API.Migrations
                     b.HasIndex("Social_WorkerId");
 
                     b.ToTable("Sessions");
-                });
-
-            modelBuilder.Entity("SoberPath_API.Models.SessionBooking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("Assignment_Date")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NGO_AdminId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Social_WorkerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("NGO_AdminId");
-
-                    b.ToTable("SessionBookings");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Social_Worker_Schedule", b =>
@@ -466,9 +485,6 @@ namespace SoberPath_API.Migrations
                 {
                     b.HasBaseType("SoberPath_API.Models.User");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");
 
@@ -504,6 +520,10 @@ namespace SoberPath_API.Migrations
                         .WithMany("Application")
                         .HasForeignKey("ClientId");
 
+                    b.HasOne("SoberPath_API.Models.Rehab_Admin", null)
+                        .WithMany("Recieved_Applications")
+                        .HasForeignKey("Rehab_AdminID");
+
                     b.HasOne("SoberPath_API.Models.Social_Worker", null)
                         .WithMany("Applications")
                         .HasForeignKey("Social_WorkerId");
@@ -524,22 +544,26 @@ namespace SoberPath_API.Migrations
                         .HasForeignKey("Social_WorkerId");
                 });
 
+            modelBuilder.Entity("SoberPath_API.Models.Event", b =>
+                {
+                    b.HasOne("SoberPath_API.Models.Client", null)
+                        .WithMany("Event")
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("SoberPath_API.Models.NGO_Admin", null)
+                        .WithMany("SessionBookings")
+                        .HasForeignKey("NGO_AdminId");
+
+                    b.HasOne("SoberPath_API.Models.Social_Worker", null)
+                        .WithMany("Events")
+                        .HasForeignKey("Social_WorkerId");
+                });
+
             modelBuilder.Entity("SoberPath_API.Models.Next_of_Kin", b =>
                 {
                     b.HasOne("SoberPath_API.Models.Client", null)
                         .WithMany("Next_Of_Kins")
                         .HasForeignKey("ClientId");
-                });
-
-            modelBuilder.Entity("SoberPath_API.Models.Recieved_Applications", b =>
-                {
-                    b.HasOne("SoberPath_API.Models.Application", null)
-                        .WithMany("Recieved_Applications")
-                        .HasForeignKey("ApplicationId");
-
-                    b.HasOne("SoberPath_API.Models.Rehab_Admin", null)
-                        .WithMany("Recieved_Applications")
-                        .HasForeignKey("Rehab_AdminId");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Records", b =>
@@ -566,6 +590,13 @@ namespace SoberPath_API.Migrations
                         .HasForeignKey("Rehab_AdminId");
                 });
 
+            modelBuilder.Entity("SoberPath_API.Models.Rehab_Disharge", b =>
+                {
+                    b.HasOne("SoberPath_API.Models.Application", null)
+                        .WithOne("Rehab_Disharge")
+                        .HasForeignKey("SoberPath_API.Models.Rehab_Disharge", "ApplicationId");
+                });
+
             modelBuilder.Entity("SoberPath_API.Models.Room", b =>
                 {
                     b.HasOne("SoberPath_API.Models.Client", null)
@@ -582,17 +613,6 @@ namespace SoberPath_API.Migrations
                     b.HasOne("SoberPath_API.Models.Social_Worker", null)
                         .WithMany("Sessions")
                         .HasForeignKey("Social_WorkerId");
-                });
-
-            modelBuilder.Entity("SoberPath_API.Models.SessionBooking", b =>
-                {
-                    b.HasOne("SoberPath_API.Models.Client", null)
-                        .WithMany("SessionBooking")
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("SoberPath_API.Models.NGO_Admin", null)
-                        .WithMany("SessionBookings")
-                        .HasForeignKey("NGO_AdminId");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Social_Worker_Schedule", b =>
@@ -618,7 +638,7 @@ namespace SoberPath_API.Migrations
 
             modelBuilder.Entity("SoberPath_API.Models.Application", b =>
                 {
-                    b.Navigation("Recieved_Applications");
+                    b.Navigation("Rehab_Disharge");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Substance", b =>
@@ -632,6 +652,8 @@ namespace SoberPath_API.Migrations
 
                     b.Navigation("Client_Assignment");
 
+                    b.Navigation("Event");
+
                     b.Navigation("Next_Of_Kins");
 
                     b.Navigation("Records");
@@ -639,8 +661,6 @@ namespace SoberPath_API.Migrations
                     b.Navigation("Rehab_Admission");
 
                     b.Navigation("Room");
-
-                    b.Navigation("SessionBooking");
 
                     b.Navigation("Sessions");
 
@@ -668,6 +688,8 @@ namespace SoberPath_API.Migrations
                     b.Navigation("Client_Assignments");
 
                     b.Navigation("Clients");
+
+                    b.Navigation("Events");
 
                     b.Navigation("Sessions");
 

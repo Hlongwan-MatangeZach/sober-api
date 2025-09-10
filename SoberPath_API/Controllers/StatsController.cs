@@ -19,27 +19,48 @@ namespace SoberPath_API.Controllers
         [HttpGet("Applications_Trend_LineGraph")]
         public async Task<ActionResult> Get_ApplicationTrend_Data()
         {
-            var returnval = await _context.Applications.Where(app => app.Status != null && app.Date != null && (app.Status == "Approved" || app.Status == "Rejected" || app.Status == "Approved & Allocated")).GroupBy(app => app.Status).Select(group => new
-            {
-                id = group.Key,
-                data = group
-                    .Select(app => new {
-                        MonthNumber = app.Date!.Substring(5, 2)
-                    })
-                    .GroupBy(x => x.MonthNumber)
-                    .Select(g => new
+
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
+
+            var targetStatuses = new List<string> { "Approved", "Rejected", "Approved & Allocated", "Pending" };
+
+
+            var rawData = await _context.Applications
+                .Where(app => app.Status != null && app.Date != null && targetStatuses.Contains(app.Status))
+                .Select(app => new
+                {
+                    Status = app.Status!,
+                    MonthNumber = app.Date!.Substring(5, 2)
+                })
+                .ToListAsync();
+
+
+            var groupedData = rawData
+                .GroupBy(rd => rd.Status)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.GroupBy(x => x.MonthNumber)
+                          .ToDictionary(gg => gg.Key, gg => gg.Count())
+                );
+
+
+            var result = targetStatuses
+                .Select(status => new
+                {
+                    id = status,
+                    data = allMonths.Select(month => new
                     {
-                        x = Get_Month(g.Key),
+                        x = Get_Month(month),
+                        y = groupedData.ContainsKey(status) && groupedData[status].ContainsKey(month)
+                            ? groupedData[status][month]
+                            : 0
+                    }).ToList()
+                })
+                .ToList();
 
-                        y = _context.Applications.Where(app => app.Status != null && app.Status == group.Key && app.Date != null && app.Date.Substring(5, 2).Equals(g.Key)).Count(),
-
-                    })
-                    .ToList()
-            })
-            .ToListAsync();
-
-
-            return Ok(returnval);
+            return Ok(result);
         }
 
         [HttpGet("Ave_No_Admitted")]
