@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoberPath_API.Migrations
 {
     /// <inheritdoc />
-    public partial class thoba : Migration
+    public partial class th : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,7 @@ namespace SoberPath_API.Migrations
                     Race = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),

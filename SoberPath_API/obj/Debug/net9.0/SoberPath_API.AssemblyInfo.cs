@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoberPath_API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f724b7617816adb32daadb2b3d1a3777be57731")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f73a25845e4f78be6dbb23ba315b19a939ea2ca8")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoberPath_API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoberPath_API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

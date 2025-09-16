@@ -279,29 +279,19 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.ClientController",
-    "Method": "AddSubstance",
-    "RelativePath": "api/Client/Add_Substance",
+    "Method": "AddSubstances",
+    "RelativePath": "api/Client/Add_Substances",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "substance",
-        "Type": "SoberPath_API.Models.Substance",
+        "Name": "substances",
+        "Type": "System.Collections.Generic.List\u00601[[SoberPath_API.Models.Substance, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "SoberPath_API.Models.Substance",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoberPath_API.Controllers.ClientController",
@@ -2263,16 +2253,11 @@
         "Name": "top",
         "Type": "System.Int32",
         "IsRequired": false
-      },
-      {
-        "Name": "includeTies",
-        "Type": "System.Boolean",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Controllers.StatsController\u002BSubstanceCountDto, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SoberPath_API.Controllers.StatsNAController\u002BSubstanceCountDto, SoberPath_API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

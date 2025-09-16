@@ -451,6 +451,9 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("ID_Number")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 

@@ -7,6 +7,34 @@
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statsnacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\statssw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statssw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\socail_workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\socail_workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\ngo_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\ngo_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -27,28 +55,12 @@
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Migrations\\20250910082114_thoba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20250910082114_thoba.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\statsracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statsracontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\applicationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\socail_workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\socail_workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\rehab_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\rehab_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\models\\rehab_disharge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -75,10 +87,6 @@
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\statssw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\statssw.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\models\\social_worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:models\\social_worker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -87,24 +95,16 @@
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\substancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\ngo_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\ngo_admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\next0fkincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\next0fkincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\usermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|c:\\users\\user\\clone\\sober-api\\soberpath_api\\migrations\\20250914162631_th.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49557771-9A24-4DAA-862A-B3BD124F5421}|SoberPath_API.csproj|solutionrelative:migrations\\20250914162631_th.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -114,46 +114,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "StatsController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\StatsController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsController.cs",
-              "RelativeToolTip": "Controllers\\StatsController.cs",
-              "ViewState": "AgIAAIQCAAAAIJuZmZmZv9cCAAAAAAAAAAAAAA==",
+              "DocumentIndex": 25,
+              "Title": "20250914162631_th.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Migrations\\20250914162631_th.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250914162631_th.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Migrations\\20250914162631_th.cs",
+              "RelativeToolTip": "Migrations\\20250914162631_th.cs",
+              "ViewState": "AgIAABkAAACgzczMzMwmwCgAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T09:16:58.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-10T08:23:04.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-14T16:26:32.407Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "StatsRAController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsRAController.cs",
-              "RelativeDocumentMoniker": "Controllers\\StatsRAController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsRAController.cs",
-              "RelativeToolTip": "Controllers\\StatsRAController.cs",
-              "ViewState": "AgIAAAYAAABAZmZmZmYkwAAAAAAAAAAAAAAAAA==",
+              "Title": "ApplicationController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ApplicationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ApplicationController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ApplicationController.cs",
+              "RelativeToolTip": "Controllers\\ApplicationController.cs",
+              "ViewState": "AgIAAG8AAAAAaGZmZmYHwAsAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T08:02:29.852Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-08T16:18:35.724Z"
             },
             {
               "$type": "Document",
@@ -163,27 +148,98 @@
               "RelativeDocumentMoniker": "Controllers\\StatsNAController.cs",
               "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsNAController.cs",
               "RelativeToolTip": "Controllers\\StatsNAController.cs",
-              "ViewState": "AgIAACoAAAAAZmZmZmYswEMAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAHEAAACgMjMzM7MwwIwAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-08T17:31:33.615Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "UserManagement.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\UserManagement.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserManagement.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\UserManagement.cs",
+              "RelativeToolTip": "Controllers\\UserManagement.cs",
+              "ViewState": "AgIAADkAAAAAzczMzMwUwCoAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T08:22:40.476Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-08T17:11:12.113Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Socail_WorkerController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Socail_WorkerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\Socail_WorkerController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Socail_WorkerController.cs",
+              "RelativeToolTip": "Controllers\\Socail_WorkerController.cs",
+              "ViewState": "AgIAAFEAAAAA//////8HwBAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T17:51:49.957Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T17:17:33.302Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "StatsSW.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsSW.cs",
+              "RelativeDocumentMoniker": "Controllers\\StatsSW.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsSW.cs",
+              "RelativeToolTip": "Controllers\\StatsSW.cs",
+              "ViewState": "AgIAAB8AAAAA9P////8fwC4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T18:19:04.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NGO_AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\NGO_AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\NGO_AdminController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\NGO_AdminController.cs",
+              "RelativeToolTip": "Controllers\\NGO_AdminController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T16:18:57.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ClientController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ClientController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ClientController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ClientController.cs",
+              "RelativeToolTip": "Controllers\\ClientController.cs",
+              "ViewState": "AgIAABYBAABAmpmZmZklwPwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T16:18:40.175Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "StatsRAController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsRAController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StatsRAController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsRAController.cs",
+              "RelativeToolTip": "Controllers\\StatsRAController.cs",
+              "ViewState": "AgIAAAYAAABAZmZmZmYkwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-10T08:02:29.852Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "StatsCController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsCController.cs",
               "RelativeDocumentMoniker": "Controllers\\StatsCController.cs",
@@ -191,25 +247,47 @@
               "RelativeToolTip": "Controllers\\StatsCController.cs",
               "ViewState": "AgIAAIIAAADAzczMzEwlwBQAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T17:32:41.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-08T17:32:41.181Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "20250910082114_thoba.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Migrations\\20250910082114_thoba.cs",
-              "RelativeDocumentMoniker": "Migrations\\20250910082114_thoba.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Migrations\\20250910082114_thoba.cs",
-              "RelativeToolTip": "Migrations\\20250910082114_thoba.cs",
-              "ViewState": "AgIAABUBAAAAbGZmZuYawAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 12,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-10T08:21:14.873Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-10T08:22:40.476Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-10T08:23:04.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StatsController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\StatsController.cs",
+              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsController.cs",
+              "RelativeToolTip": "Controllers\\StatsController.cs",
+              "ViewState": "AgIAAIQCAAAAIJuZmZmZv9cCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-10T09:16:58.177Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "Properties\\launchSettings.json",
@@ -217,12 +295,11 @@
               "RelativeToolTip": "Properties\\launchSettings.json",
               "ViewState": "AgIAAAUAAADozMzMzAwswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-10T08:22:51.524Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-10T08:22:51.524Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "SessionController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\SessionController.cs",
               "RelativeDocumentMoniker": "Controllers\\SessionController.cs",
@@ -234,7 +311,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "Client.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\Client.cs",
               "RelativeDocumentMoniker": "Models\\Client.cs",
@@ -246,19 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "StatsSW.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsSW.cs",
-              "RelativeDocumentMoniker": "Controllers\\StatsSW.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\StatsSW.cs",
-              "RelativeToolTip": "Controllers\\StatsSW.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAA1wMMAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T18:19:04.272Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Event.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\Event.cs",
               "RelativeDocumentMoniker": "Models\\Event.cs",
@@ -270,20 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ApplicationController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ApplicationController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ApplicationController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ApplicationController.cs",
-              "RelativeToolTip": "Controllers\\ApplicationController.cs",
-              "ViewState": "AgIAADIAAAAAxszMzMz8vwsAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T16:18:35.724Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "Rehab_AdminController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Rehab_AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\Rehab_AdminController.cs",
@@ -295,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Application.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\Application.cs",
               "RelativeDocumentMoniker": "Models\\Application.cs",
@@ -307,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Rehab_Disharge.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\Rehab_Disharge.cs",
               "RelativeDocumentMoniker": "Models\\Rehab_Disharge.cs",
@@ -319,19 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Socail_WorkerController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Socail_WorkerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\Socail_WorkerController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Socail_WorkerController.cs",
-              "RelativeToolTip": "Controllers\\Socail_WorkerController.cs",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAAAFUAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T17:51:49.957Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "SubstanceController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\SubstanceController.cs",
               "RelativeDocumentMoniker": "Controllers\\SubstanceController.cs",
@@ -343,7 +383,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "Social_Worker.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\Social_Worker.cs",
               "RelativeDocumentMoniker": "Models\\Social_Worker.cs",
@@ -355,43 +395,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Models\\User.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Models\\User.cs",
-              "RelativeToolTip": "Models\\User.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T17:17:33.302Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 23,
-              "Title": "UserManagement.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\UserManagement.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserManagement.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\UserManagement.cs",
-              "RelativeToolTip": "Controllers\\UserManagement.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAcwGYAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T17:11:12.113Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "NGO_AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\NGO_AdminController.cs",
-              "RelativeDocumentMoniker": "Controllers\\NGO_AdminController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\NGO_AdminController.cs",
-              "RelativeToolTip": "Controllers\\NGO_AdminController.cs",
-              "ViewState": "AgIAAOoAAAAAAAAAAAA8wFkBAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T16:18:57.785Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
               "Title": "Next0fKinController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\Next0fKinController.cs",
               "RelativeDocumentMoniker": "Controllers\\Next0fKinController.cs",
@@ -403,7 +407,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "EventsController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\EventsController.cs",
               "RelativeDocumentMoniker": "Controllers\\EventsController.cs",
@@ -415,19 +419,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ClientController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ClientController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ClientController.cs",
-              "ToolTip": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\ClientController.cs",
-              "RelativeToolTip": "Controllers\\ClientController.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAA2wHsAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-08T16:18:40.175Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 24,
               "Title": "AppointmentController.cs",
               "DocumentMoniker": "C:\\Users\\User\\clone\\sober-api\\SoberPath_API\\Controllers\\AppointmentController.cs",
               "RelativeDocumentMoniker": "Controllers\\AppointmentController.cs",

@@ -12,8 +12,8 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    [Migration("20250910082114_thoba")]
-    partial class thoba
+    [Migration("20250914162631_th")]
+    partial class th
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -452,6 +452,9 @@ namespace SoberPath_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ID_Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

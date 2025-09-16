@@ -243,16 +243,25 @@ namespace SoberPath_API.Controllers
 
         }
 
-        [HttpPost("Add_Substance")]
-        public async Task<ActionResult<Substance>> AddSubstance(Substance substance)
+        // Add this to your ClientController.cs
+        [HttpPost("Add_Substances")]
+        public async Task<ActionResult> AddSubstances(List<Substance> substances)
         {
-            if (substance == null)
+            if (substances == null || !substances.Any())
             {
-                return BadRequest();
+                return BadRequest("No substances provided");
             }
-            _context.Substances.Add(substance);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetClientById), new { id = substance.Id }, substance);
+
+            try
+            {
+                _context.Substances.AddRange(substances);
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Substances added successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error adding substances: {ex.Message}");
+            }
         }
 
         [HttpPost("Add_Next_of_Kin")]

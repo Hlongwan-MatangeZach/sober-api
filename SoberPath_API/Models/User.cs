@@ -19,6 +19,7 @@ namespace SoberPath_API.Models
         public string? Gender { get; set; }
 
         public string? Address { get; set; }
+        public string? Location { get; set; }
 
         public string? Phone_Number { get; set; }
 
