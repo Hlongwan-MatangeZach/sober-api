@@ -88,12 +88,14 @@ namespace SoberPath_API.Controllers
 
             var returnval = new
             {
-                //id=application.Id,
+                id = application.Id,
                 applicationDate = application.Date,
+                editableReason = application.RejectionReason,
                 summary = application.Summary,
                 substances = _context.Substances.Where(sub => sub.ClientId == id).Select(sub => sub.Name).ToList(),
                 socialWorkerName = _context.Social_Workers.Where(sw => sw.Id == application.Social_WorkerId).Select(sw => sw.Name).FirstOrDefault(),
-
+                fileName = application.FileName,
+                content = application.Data
             };
 
             return Ok(returnval);

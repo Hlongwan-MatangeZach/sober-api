@@ -6,11 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoberPath_API.Migrations
 {
     /// <inheritdoc />
-    public partial class thoba : Migration
+    public partial class zach : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "NGOs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRecommended = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NGOs", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Rehabilitation_Progresses",
                 columns: table => new
@@ -37,6 +57,7 @@ namespace SoberPath_API.Migrations
                     ID_Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Race = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -69,6 +90,8 @@ namespace SoberPath_API.Migrations
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: true),
+                    RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status_Update_Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HasRelapse = table.Column<bool>(type: "bit", nullable: true)
                 },
@@ -472,6 +495,9 @@ namespace SoberPath_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Next_Of_Kins");
+
+            migrationBuilder.DropTable(
+                name: "NGOs");
 
             migrationBuilder.DropTable(
                 name: "Records");

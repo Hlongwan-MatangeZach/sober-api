@@ -16,28 +16,33 @@ namespace SoberPath_API.Controllers
         [HttpPost("UserLogin/{username}/{password}")]
         public async Task<ActionResult> Login(string username, string password)
         {
-
             var determin_array = new int[3];
 
-            var find_user = await _context.Users.FirstOrDefaultAsync(client=>client.EmailAddress==username && client.Password==password);
-
-            if(find_user==null)
-            {
-                return NotFound();
-            }
-
+            var find_user = await _context.Users.FirstOrDefaultAsync(client => client.EmailAddress == username && client.Password == password);
 
             
-
+            //var socialWorkerId = await GetSW_Id(find_user.Id);
             return Ok(new
             {
                 user_id = find_user.Id,
                 first_name = find_user.Name,
-                firt_surname =find_user.Surname,
-                type= find_user.GetType().Name,
+                surname = find_user.Surname,
+                type = find_user.GetType().Name,
+                social_id = await GetSW_Id(find_user.Id),
             });
-
         }
+        private async Task<int> GetSW_Id(int clientId)
+        {
+            var client = await _context.Clients.FindAsync(clientId);
+
+            if (client == null)
+            {
+                return 0;
+            }
+
+            return (int)client.Social_WorkerId;
+        }
+
 
         [HttpGet("GetClientBYID{Id}")]
         public async Task<ActionResult> GetClient(int Id)

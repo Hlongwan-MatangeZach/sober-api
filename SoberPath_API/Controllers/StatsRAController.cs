@@ -18,11 +18,7 @@ namespace SoberPath_API.Controllers
         [HttpGet("Total_clients_inhouse")]
         public async Task<ActionResult> GetTotalClients_inhouse()
         {
-            var num = await _context.Applications.
-                Where(app => app.Status != null && 
-                app.Status == "Approved & Allocated" && 
-                app.ClientId != null
-                ).CountAsync();
+            var num = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).CountAsync();
 
             if (num <= 0)
             {
@@ -45,132 +41,161 @@ namespace SoberPath_API.Controllers
             return Ok(num);
         }
 
-        [HttpGet("Gender_percentage")]
-        public async Task<ActionResult> Get_GenderPercentage()
+        [HttpGet("Approved_Gender_Stats")]
+
+        public async Task<IActionResult> Get_GenderPercentage()
         {
-            var sumclients = await _context.Applications.Where(app => app.Status == "Approved & Allocated" || app.Status == "Approved").CountAsync();
-
-            var sum_males = await _context.Applications.Where(app => app.Status == "Approved & Allocated" || app.Status == "Approved" &&
-            _context.Clients.Any(client =>
-            client.Id == app.ClientId && client.Gender != null &&
-            client.Gender.ToLower().Equals("male")
-
-            )).CountAsync();
-            var sum_females = await _context.Applications.Where(app => app.Status == "Approved & Allocated" || app.Status == "Approved" && _context.Clients.Any(client =>
-            client.Id == app.ClientId && client.Gender != null &&
-            client.Gender.ToLower().Equals("female")
-
-            )).CountAsync();
-            var sum_other = await _context.Applications.Where(app => app.Status == "Approved & Allocated" || app.Status == "Approved" && _context.Clients.Any(client =>
-            client.Id == app.ClientId && client.Gender != null &&
-            client.Gender.ToLower().Equals("other")
-
-            )).CountAsync();
+            var admitted_clients_list = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && app.Status == "Approved" || app.Status == "Approved & Allocated").CountAsync();
+            var male_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.Id && cl.Gender != null && cl.Gender.ToLower() == "male")).CountAsync();
+            var female_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.Id && cl.Gender != null && cl.Gender.ToLower() == "female")).CountAsync();
+            var female_list_count_ = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.Id && cl.Gender != null && cl.Gender.ToLower() == "female")).Select(app => new
+            {
+                clientId = app.ClientId,
+                gender = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Gender).FirstOrDefault()
+            }).ToListAsync();
+            var other_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && app.Status == "Approved" || app.Status == "Approved & Allocated" && _context.Clients.Any(cl => cl.Id == app.Id && cl.Gender == "other")).CountAsync();
 
 
-            double female_percentage = Math.Round(((double)sum_females / (double)sumclients) * 100);
-            double male_percentage = Math.Round(((double)sum_males / (double)sumclients) * 100);
-            double other_percentage = Math.Round(((double)sum_other / (double)sumclients) * 100);
+
+
+            if (admitted_clients_list == 0)
+            {
+                return BadRequest("Zero clients admitted");
+            }
+
+
+            var percent_female_client = Math.Round(((decimal)female_list_count / admitted_clients_list * 100), 2);
+            var percent_male_client = Math.Round(((decimal)male_list_count / admitted_clients_list * 100), 2);
+            var percent_other_client = Math.Round(((decimal)other_list_count / admitted_clients_list * 100), 2);
+
 
             var returnval = await _context.Clients.Where(cl => cl.Gender != null).GroupBy(cl => cl.Gender).Where(g => g.Key != null).Select(g => new
             {
                 id = g.Key!.ToLower(),
                 label = g.Key.ToLower(),
-                value = g.Key.ToLower() == "male" ? male_percentage : g.Key.ToLower() == "female" ? female_percentage : other_percentage,
+                value = g.Key.ToLower() == "male" ? percent_male_client : g.Key.ToLower() == "female" ? percent_female_client : percent_other_client,
                 color = g.Key.ToLower() == "male" ? "hsl(104, 70%, 50%)" : g.Key.ToLower() == "female" ? "hsl(162, 70%, 50%)" : "hsla(162, 62%, 29%, 1.00)",
 
             }).ToListAsync();
 
 
-
             return Ok(returnval);
+
 
 
         }
 
-        [HttpGet("Clients_Race_Stats")]
-        public async Task<ActionResult> Get_Client_RaceStats()
+        [HttpGet("Approved_Race_Stats")]
+
+        public async Task<IActionResult> Get_Client_RaceStats()
         {
-            var sumclients = await _context.Clients.CountAsync();
-            var sum_indian = await _context.Clients.Where(cl => cl.Race != null && cl.Race.ToLower().Equals("indian")).CountAsync();
-            var sum_white = await _context.Clients.Where(cl => cl.Race != null && cl.Race.ToLower().Equals("white")).CountAsync();
-            var sum_black = await _context.Clients.Where(cl => cl.Race != null && cl.Race.ToLower().Equals("black")).CountAsync();
-            var sum_coloured = await _context.Clients.Where(cl => cl.Race != null && cl.Race.ToLower().Equals("coloured")).CountAsync();
-            var sum_other = await _context.Clients.Where(cl => cl.Race != null && cl.Race.ToLower().Equals("other")).CountAsync();
+            var admitted_clients_list = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated")).CountAsync();
+            var white_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "white")).CountAsync();
+            var black_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "black")).CountAsync();
+            var black_list_count_ = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "black")).Select(app => new { clientId = app.ClientId }).ToListAsync();
+            var coloured_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "coloured")).CountAsync();
+
+            var indian_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "indian")).CountAsync();
+
+            var other_list_count = await _context.Applications.Where(app => app.ClientId != null && app.Social_WorkerId != null && (app.Status == "Approved" || app.Status == "Approved & Allocated") && _context.Clients.Any(cl => cl.Id == app.ClientId && cl.Race != null && cl.Race.ToLower() == "other")).CountAsync();
 
 
-            double indian_percentage = Math.Round(((double)sum_indian / (double)sumclients) * 100);
-            double black_percentage = Math.Round(((double)sum_black / (double)sumclients) * 100);
-            double white_percentage = Math.Round(((double)sum_white / (double)sumclients) * 100);
-            double coloured_percentage = Math.Round(((double)sum_coloured / (double)sumclients) * 100);
-            double other_percentage = Math.Round(((double)sum_other / (double)sumclients) * 100);
+            if (admitted_clients_list == 0)
+            {
+                return BadRequest("Zero clients admitted");
+            }
+
+
+            var percent_black_client = Math.Round(((decimal)black_list_count / admitted_clients_list * 100), 2);
+            var percent_white_client = Math.Round(((decimal)white_list_count / admitted_clients_list * 100), 2);
+            var percent_coloured_client = Math.Round(((decimal)coloured_list_count / admitted_clients_list * 100), 2);
+            var percent_indian_client = Math.Round(((decimal)indian_list_count / admitted_clients_list * 100), 2);
+            var percent_other_client = Math.Round(((decimal)other_list_count / admitted_clients_list * 100), 2);
 
 
             var returnval = await _context.Clients.Where(cl => cl.Race != null).GroupBy(cl => cl.Race).Where(g => g.Key != null).Select(g => new
             {
                 id = g.Key!.ToLower(),
                 label = g.Key.ToLower(),
-                value = g.Key.ToLower() == "indian" ? indian_percentage : g.Key.ToLower() == "white" ? white_percentage : g.Key.ToLower() == "black" ? black_percentage : g.Key.ToLower() == "coloured" ? coloured_percentage : other_percentage,
-                color = g.Key.ToLower() == "indian" ? "#3f51b5" : g.Key.ToLower() == "white" ? "#f50057" : g.Key.ToLower() == "black" ? "hsl(291, 70%, 50%)" : g.Key.ToLower() == "coloured" ? "hsl(157, 70%, 50%)" : "hsl(331, 70%, 50%)",
+                value = g.Key.ToLower() == "black" ? percent_black_client : g.Key.ToLower() == "white" ? percent_white_client : g.Key.ToLower() == "coloured" ? percent_coloured_client : g.Key.ToLower() == "indian" ? percent_indian_client : percent_other_client,
+                color = g.Key.ToLower() == "black" ? "hsl(104, 70%, 50%)" : g.Key.ToLower() == "white" ? "hsl(162, 70%, 50%)" : g.Key.ToLower() == "coloured" ? "hsl(162, 70%, 50%)" : g.Key.ToLower() == "indian" ? "hsl(162, 70%, 50%)" : "hsla(162, 62%, 29%, 1.00)",
 
             }).ToListAsync();
-
 
 
             return Ok(returnval);
-
-
         }
 
         [HttpGet("Processing_Trend_Data")]
-        public async Task<ActionResult> Get_ProcessingTrend()
+        public async Task<IActionResult> Get_ProcessingTrend()
         {
-
-            var returnval = await _context.Applications.Where(app_ => app_.Status_Update_Date != null && app_.Date != null && (app_.Status == "Approved" || app_.Status == "Pending" || app_.Status == "Rejected" || app_.Status == "Approved & Allocated" && app_.Status_Update_Date != null && app_.Date != null)).Select(app => new
-            {
-                Status = app.Status,
-                Creation_date = app.Date,
-                Update_date = app.Status_Update_Date,
-
-            }).ToListAsync();
-
-            var result = returnval.GroupBy(obj => obj.Status).Select(g => new
-            {
-                id = g.Key,
-                data = g.Select(obj => new
+            var applications = await _context.Applications
+                .Where(app => app.Status_Update_Date != null
+                        && app.Date != null
+                        && (app.Status == "Approved"
+                            || app.Status == "Pending"
+                            || app.Status == "Rejected"
+                            || app.Status == "Approved & Allocated"))
+                .Select(app => new
                 {
-                    month_num = obj.Creation_date.Substring(5, 2),
-                    Count_number = DateTime.Parse(obj.Update_date).Subtract(DateTime.Parse(obj.Creation_date)).TotalDays,
+                    Status = app.Status,
+                    Creation_date = app.Date,
+                    Update_date = app.Status_Update_Date,
+                })
+                .ToListAsync();
 
+            // Create a list of all months (01 to 12)
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
 
+            // Get the target statuses
+            var targetStatuses = new List<string> { "Approved", "Pending", "Rejected", "Approved & Allocated" };
 
-                }).GroupBy(obj => obj.month_num).Select(g => new
+            // Process the data and calculate processing days
+            var processedData = applications
+                .Select(app => new
                 {
-                    x = Get_Month(g.Key),
-                    y = g.Average(obj => obj.Count_number)
-                }).ToList(),
-            }).ToList();
+                    Status = app.Status,
+                    CreationDate = app.Creation_date,
+                    UpdateDate = app.Update_date,
+                    ProcessingDays = (DateTime.Parse(app.Update_date!) - DateTime.Parse(app.Creation_date!)).TotalDays,
+                    MonthNumber = app.Creation_date!.Substring(5, 2)
+                })
+                .Where(x => x.ProcessingDays >= 0) // Only include valid time spans
+                .ToList();
 
+            // Group by status and month
+            var groupedData = processedData
+                .GroupBy(x => x.Status)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.GroupBy(x => x.MonthNumber)
+                          .ToDictionary(gg => gg.Key, gg => gg.Average(item => item.ProcessingDays))
+                );
 
-
-
-
+            // Build the result with all months included for each status
+            var result = targetStatuses
+                .Select(status => new
+                {
+                    id = status,
+                    data = allMonths.Select(month => new
+                    {
+                        x = Get_Month(month),
+                        y = groupedData.ContainsKey(status) && groupedData[status].ContainsKey(month)
+                            ? Math.Round(groupedData[status][month], 2)
+                            : 0
+                    }).ToList()
+                })
+                .ToList();
 
             return Ok(result);
-
         }
 
         [HttpGet("Get_current_approvals")]
-        public async Task<ActionResult> GetCurrent_approvals()
+        public async Task<IActionResult> GetCurrent_approvals()
         {
-            var dates = await _context.Applications.
-                Where(
-                app => app.Status != null && 
-                app.Status == "Approved & Allocated" || 
-                app.Status == "Approved" && 
-                app.Date != null
-                
-                ).Select(app => new
+            var dates = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" || app.Status == "Approved" && app.Date != null).Select(app => new
             {
                 date = app.Date,
             }).ToListAsync();
@@ -195,8 +220,9 @@ namespace SoberPath_API.Controllers
             return Ok(count);
         }
 
-        [HttpGet("Get_curent_month_applications")]
-        public async Task<ActionResult> Get_current_month_applications()
+        [HttpGet("Get_current_month_applications")]
+
+        public async Task<IActionResult> Get_current_month_applications()
         {
             var returnval = await _context.Applications.Where(app => app.ClientId != null && app.Status != null && app.Date != null).Select(app => new
             {
@@ -210,41 +236,106 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpGet("Monthly_Admission_Data")]
-        public async Task<ActionResult> GetMonthlyAdmission_Data()
+        public async Task<IActionResult> GetMonthlyAdmission_Data()
         {
+            // Get the relevant data from database
             var applications = await _context.Applications
                 .Where(app => (app.Status == "Approved & Allocated" || app.Status == "Discharged")
-                    && app.ClientId != null
-                    && app.Date != null
-                    && app.Status_Update_Date != null)
+                        && app.ClientId != null
+                        && app.Date != null
+                        && app.Status_Update_Date != null)
                 .Select(app => new
                 {
                     Status = app.Status,
-                    Date_submitted = app.Date,
-                    Status_Update_Date = app.Status_Update_Date,
-                    Discharge_Date = app.Rehab_Disharge != null ? app.Rehab_Disharge.Disharge_Date : null
+                    DateSubmitted = app.Date,
+                    StatusUpdateDate = app.Status_Update_Date,
+                    DischargeDate = _context.Rehab_disharges.Where(ds => ds.ApplicationId == app.Id).Select(ds => ds.Disharge_Reason).FirstOrDefault()
                 })
                 .ToListAsync();
 
-            var result = applications
-                .Where(app => !string.IsNullOrEmpty(app.Date_submitted) && app.Date_submitted.Length >= 7)
-                .GroupBy(obj => obj.Date_submitted.Substring(5, 2)) // Extract month from YYYY-MM-DD format
-                .Select(g => new
+            // Create a list of all months (01 to 12)
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
+
+            // Group admissions and discharges by month
+            var admissionsByMonth = applications
+                .Where(app => app.Status == "Approved & Allocated" && app.StatusUpdateDate != null)
+                .GroupBy(app => app.StatusUpdateDate!.Substring(5, 2))
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            var dischargesByMonth = applications
+                .Where(app => app.Status == "Discharged" && app.StatusUpdateDate != null)
+                .GroupBy(app => app.StatusUpdateDate!.Substring(5, 2))
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            // Build the result with all months included
+            var result = allMonths
+                .Select(month => new
                 {
-                    Month = Get_Month(g.Key),
-                    No_of_Admissions = g.Count(obj => obj.Status == "Approved & Allocated"
-                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
-                        && obj.Status_Update_Date.Length >= 7
-                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
-                    No_of_discharges = g.Count(obj => obj.Status == "Discharged"
-                        && !string.IsNullOrEmpty(obj.Status_Update_Date)
-                        && obj.Status_Update_Date.Length >= 7
-                        && obj.Status_Update_Date.Substring(5, 2) == g.Key),
+                    Month = Get_Month(month),
+                    No_of_Admissions = admissionsByMonth.ContainsKey(month) ? admissionsByMonth[month] : 0,
+                    No_of_Discharges = dischargesByMonth.ContainsKey(month) ? dischargesByMonth[month] : 0
                 })
                 .ToList();
 
             return Ok(result);
         }
+
+        /*
+        [HttpGet("MostThreateningSubstance")]
+        public async Task<ActionResult<string>> GetMostThreateningSubstance()
+        {
+            try
+            {
+                // Get all approved applications
+                var approvedApplications = await _context.Applications
+                    .Where(app => app.Status == "Approved")
+                    .Include(app => app.ClientId)
+                    .ThenInclude(client => client.Substances)
+                    .ToListAsync();
+
+                if (!approvedApplications.Any())
+                {
+                    return NotFound("No approved applications found");
+                }
+
+                // Count substance occurrences across all approved applications
+                var substanceCounts = approvedApplications
+                    .SelectMany(app => app.Client?.Substances ?? new List<Substance>())
+                    .Where(substance => substance != null && !string.IsNullOrEmpty(substance.Name))
+                    .GroupBy(substance => substance.Name)
+                    .Select(group => new
+                    {
+                        SubstanceName = group.Key,
+                        Count = group.Count(),
+                        // You can also consider threat level based on DailyThreshold if needed
+                        AverageThreshold = group.Average(s => s.DailyThreshold ?? 0)
+                    })
+                    .OrderByDescending(x => x.Count) // Sort by frequency first
+                    .ThenByDescending(x => x.AverageThreshold) // Then by threat level
+                    .ToList();
+
+                if (!substanceCounts.Any())
+                {
+                    return NotFound("No substances found in approved applications");
+                }
+
+                // Return the most common/threatening substance
+                var mostThreatening = substanceCounts.First();
+
+                return Ok(new
+                {
+                    MostThreateningSubstance = mostThreatening.SubstanceName,
+                    OccurrenceCount = mostThreatening.Count(),
+                    AverageDailyThreshold = mostThreatening.AverageThreshold
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error retrieving most threatening substance: {ex.Message}");
+            }
+        }*/
 
         private static string Get_Month(string str)
         {

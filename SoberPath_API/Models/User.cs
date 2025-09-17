@@ -17,6 +17,7 @@ namespace SoberPath_API.Models
         public string? Race { get; set; }
 
         public string? Gender { get; set; }
+        public string? Location { get; set; }
 
         public string? Address { get; set; }
 

@@ -48,8 +48,14 @@ namespace SoberPath_API.Migrations
                     b.Property<bool?>("HasRelapse")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Rehab_AdminID")
                         .HasColumnType("int");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");
@@ -155,6 +161,47 @@ namespace SoberPath_API.Migrations
                     b.HasIndex("Social_WorkerId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("SoberPath_API.Models.NGO_Center", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRecommended")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NGOs");
                 });
 
             modelBuilder.Entity("SoberPath_API.Models.Next_of_Kin", b =>
@@ -449,6 +496,9 @@ namespace SoberPath_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ID_Number")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

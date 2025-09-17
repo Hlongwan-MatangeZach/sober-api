@@ -54,6 +54,7 @@ namespace SoberPath_API.Controllers
             }
             _context.Clients.Add(client);
             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
            // EmailSender emailSender = new EmailSender();
             //var username = client.Name + " " + client.Surname;
@@ -133,6 +134,7 @@ namespace SoberPath_API.Controllers
 
 
             application.Status = newStatus;
+            application.RejectionReason = comment;
             application.Status_Update_Date = DateTime.Now.Date.ToString();
             await _context.SaveChangesAsync();
             return NoContent();
@@ -281,6 +283,18 @@ namespace SoberPath_API.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("GetSocial_Worker_Id/{client_id}")]
+        public async Task<ActionResult> Get_SW_Id(int client_id)
+        {
+            var client = await _context.Clients.FindAsync(client_id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            return Ok(client.Social_WorkerId);
+        }
+
       
     }
 

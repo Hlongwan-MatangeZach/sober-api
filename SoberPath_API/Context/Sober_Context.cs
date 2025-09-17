@@ -33,5 +33,7 @@ namespace SoberPath_API.Context
 
         public DbSet<Event> Events => Set<Event>();
 
+        public DbSet<NGO_Center> NGOs => Set<NGO_Center>();
+
     }
 }

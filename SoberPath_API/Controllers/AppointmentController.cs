@@ -13,7 +13,6 @@ namespace SoberPath_API.Controllers
     {
         private readonly Sober_Context _context = context;
 
-
         // GET: api/appointments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetAppointments()
@@ -38,9 +37,21 @@ namespace SoberPath_API.Controllers
         [HttpPost("BookAppointment")]
         public async Task<ActionResult<Event>> CreateAppointment(Event appointment)
         {
+            // Validate the appointment first
+            if (!DateTime.TryParse(appointment.Date, out var appointmentDate))
+            {
+                return BadRequest("Invalid date format");
+            }
+
+            if (!TimeSpan.TryParse(appointment.StartTime, out var startTime) ||
+                !TimeSpan.TryParse(appointment.EndTime, out var endTime))
+            {
+                return BadRequest("Invalid time format");
+            }
+
             _context.Events.Add(appointment);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetClientAppointments), new { id = appointment.Id }, appointment);
+            return CreatedAtAction(nameof(GetClientAppointments), new { clientId = appointment.Client_Id }, appointment);
         }
 
         // DELETE: api/appointments/{id}
@@ -55,13 +66,12 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-
         [HttpGet("CheckAvailability/{socialWorkerId}")]
         public async Task<ActionResult> CheckAvailability(
-         int socialWorkerId,
-         string selectedDay,
-         string startTime,
-         string endTime)
+            int socialWorkerId,
+            [FromQuery] string selectedDay,
+            [FromQuery] string startTime,
+            [FromQuery] string endTime)
         {
             // Parse the selected day
             if (!DateTime.TryParse(selectedDay, out var selectedDate))
@@ -99,9 +109,9 @@ namespace SoberPath_API.Controllers
                     var evStartDateTime = selectedDate.Date.Add(evStart);
                     var evEndDateTime = selectedDate.Date.Add(evEnd);
 
-                    if ((startDateTime >= evStartDateTime && startDateTime < evEndDateTime) || // overlap start
-                        (endDateTime > evStartDateTime && endDateTime <= evEndDateTime) ||    // overlap end
-                        (startDateTime <= evStartDateTime && endDateTime >= evEndDateTime))   // full overlap
+                    if ((startDateTime >= evStartDateTime && startDateTime < evEndDateTime) ||
+                        (endDateTime > evStartDateTime && endDateTime <= evEndDateTime) ||
+                        (startDateTime <= evStartDateTime && endDateTime >= evEndDateTime))
                     {
                         hasConflict = true;
                         break;
@@ -111,15 +121,9 @@ namespace SoberPath_API.Controllers
 
             return Ok(new
             {
-                socialWorkerId,
-                day = selectedDate.ToString("yyyy-MM-dd"),
-                available = !hasConflict
+                available = !hasConflict,
+                message = hasConflict ? "Time slot is not available" : "Time slot is available"
             });
         }
-
-
-
-
     }
-
 }

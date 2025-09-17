@@ -379,6 +379,74 @@ namespace SoberPath_API.Controllers
             return Ok("Social Worker Removed Successfully");
         }
 
+        [HttpGet("All")]
+        public async Task<ActionResult<IEnumerable<NGO_Center>>> GetAllNgos()
+        {
+            try
+            {
+                var ngos = await _context.NGOs.ToListAsync();
+                if (!ngos.Any())
+                    return NotFound("No NGOs found.");
+                return Ok(ngos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("Nearest")]
+        public async Task<ActionResult<IEnumerable<object>>> GetNearestNgos(double lat, double lng, int count = 5)
+        {
+            try
+            {
+                var ngos = await _context.NGOs.ToListAsync();
+                if (!ngos.Any())
+                    return NotFound("No NGOs found.");
+
+                var nearest = ngos
+                    .Select(n => new
+                    {
+                        n.Id,
+                        n.Name,
+                        n.Description,
+                        n.Rating,
+                        n.Type,
+                        n.Latitude,
+                        n.Longitude,
+                        n.Address,
+                        n.IsRecommended,
+                        Distance = GetDistance(lat, lng, n.Latitude, n.Longitude)
+                    })
+                    .OrderBy(n => n.Distance)
+                    .Take(count)
+                    .ToList();
+
+                return Ok(nearest);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+        // Helper: Haversine Formula (distance in KM)
+        private static double GetDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double R = 6371; // Radius of earth in KM
+            var dLat = ToRadians(lat2 - lat1);
+            var dLon = ToRadians(lon2 - lon1);
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            return R * c;
+        }
+
+        private static double ToRadians(double angle) => Math.PI * angle / 180.0;
     }
+
+
 }
 

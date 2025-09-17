@@ -23,6 +23,10 @@ namespace SoberPath_API.Models
         public byte[]? Data { get; set; }
 
         //processing stuffs
+        public bool? IsRead { get; set; }
+        public string? RejectionReason { get; set; }
+
+
         public string? Status_Update_Date { get; set; }
         public bool? HasRelapse { get; set; }
 

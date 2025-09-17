@@ -44,32 +44,26 @@ namespace SoberPath_API.Controllers
         [HttpGet("LocationvsClients_GraphData")]
         public async Task<ActionResult> Get_LocationvsClients()
         {
-            // Defensive: if the Clients table doesn't have Location data, return an empty list
-            // If Location column exists and contains values, this will group and return counts.
-            // Uses server-side grouping for efficiency.
             try
             {
-                var hasLocationColumn = _context.Model.FindEntityType(typeof(Client))?
-                    .GetProperties().Any(p => string.Equals(p.Name, "Location", StringComparison.OrdinalIgnoreCase)) ?? false;
-
-                if (!hasLocationColumn)
-                    return Ok(new List<object>());
-
-                var query = await _context.Clients
-                    .Where(cl => !string.IsNullOrEmpty(cl.Address))
-                    .GroupBy(cl => cl.Address)
+                // Use Address instead of Location
+                var locationData = await _context.Clients
+                    .Where(cl => !string.IsNullOrEmpty(cl.Location))
+                    .GroupBy(cl => cl.Location)
                     .Select(g => new
                     {
-                        location_ = g.Key,
-                        Number = g.Count()
+                        address = g.Key,  // Changed from location to address
+                        clients = g.Count()
                     })
+                    .Where(x => x.clients > 0)
                     .ToListAsync();
 
-                return Ok(query);
+                return Ok(locationData);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // If anything goes wrong (e.g., column missing or migration mismatch), return empty list so frontend can handle it
+                // Log the error and return empty array
+                Console.WriteLine($"Error in LocationvsClients_GraphData: {ex.Message}");
                 return Ok(new List<object>());
             }
         }
@@ -180,38 +174,36 @@ namespace SoberPath_API.Controllers
             return Ok(tied);
         }
 
-        // ---- Substances broken down by client gender for social workers ----
+        // ---- Substances by gender ----
         [HttpGet("SubstanceByGenderForSocialWorkers")]
         public async Task<ActionResult> GetSubstanceStatsByGenderForSocialWorkers()
         {
             try
             {
-                var substanceStats = await _context.Social_Workers
-                    .Join(_context.Clients,
-                          sw => sw.Id,
-                          c => c.Social_WorkerId,
-                          (sw, client) => new { sw, client })
-                    .Join(_context.Substances,
-                          joined => joined.client.Id,
-                          s => s.ClientId,
-                          (joined, substance) => new { joined.sw, joined.client, substance })
-                    .Where(joined => joined.client.Gender != null && joined.substance.Name != null)
-                    .GroupBy(joined => new { SubstanceName = joined.substance.Name, joined.client.Gender })
-                    .Select(g => new
-                    {
-                        substance = g.Key.SubstanceName!.ToLower(),
-                        gender = g.Key.Gender!.ToLower(),
-                        count = g.Count()
-                    })
-                    .OrderByDescending(result => result.count)
-                    .ToListAsync();
+                var substanceStats = await (from client in _context.Clients
+                                            join substance in _context.Substances on client.Id equals substance.ClientId
+                                            where client.Gender != null && substance.Name != null
+                                            group new { client, substance } by new
+                                            {
+                                                Substance = substance.Name.Trim().ToLower(),
+                                                Gender = client.Gender.Trim().ToLower()
+                                            } into g
+                                            select new
+                                            {
+                                                substance = g.Key.Substance,
+                                                gender = g.Key.Gender,
+                                                count = g.Count()
+                                            })
+                                          .OrderByDescending(x => x.count)
+                                          .ThenBy(x => x.substance)
+                                          .ToListAsync();
 
-                if (!substanceStats.Any()) return Ok(new List<object>());
                 return Ok(substanceStats);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine($"Error in SubstanceByGenderForSocialWorkers: {ex.Message}");
+                return Ok(new List<object>());
             }
         }
 

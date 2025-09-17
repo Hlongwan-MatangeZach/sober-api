@@ -2,13 +2,13 @@
 {
     public class ProgressDto
     {
-      
-            public int ClientId { get; set; }
-            public double ProgressPercentage { get; set; } // 0-100
-            public int CompletedDays { get; set; } // Days without exceeding threshold
-            public int TotalDays { get; set; } // Total days in the period
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
+
+        public int ClientId { get; set; }
+        public double ProgressPercentage { get; set; }
+        public int CompletedDays { get; set; }
+        public int TotalDays { get; set; }
+        public double AddictionRate { get; set; } // New field
+        public string TimeframeDescription { get; set; }
         public List<SubstanceProgress> SubstanceProgressDetails { get; set; } = new();
     }
 }

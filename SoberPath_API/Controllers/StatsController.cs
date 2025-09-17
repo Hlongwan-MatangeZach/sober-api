@@ -283,30 +283,50 @@ namespace SoberPath_API.Controllers
 
 
         [HttpGet("Applications_Trend_LineGraph")]
-
         public async Task<ActionResult> Get_ApplicationTrend_Data()
         {
-            var returnval = await _context.Applications.Where(app => app.Status != null && app.Date != null && (app.Status == "Approved" || app.Status == "Rejected" || app.Status == "Approved & Allocated")).GroupBy(app => app.Status).Select(group => new
-            {
-                id = group.Key,
-                data = group
-                    .Select(app => new {
-                        MonthNumber = app.Date!.Substring(5, 2)
-                    })
-                    .GroupBy(x => x.MonthNumber)
-                    .Select(g => new
+
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(i => i.ToString("D2"))
+                .ToList();
+
+            var targetStatuses = new List<string> { "Approved", "Rejected", "Approved & Allocated", "Pending" };
+
+
+            var rawData = await _context.Applications
+                .Where(app => app.Status != null && app.Date != null && targetStatuses.Contains(app.Status))
+                .Select(app => new
+                {
+                    Status = app.Status!,
+                    MonthNumber = app.Date!.Substring(5, 2)
+                })
+                .ToListAsync();
+
+
+            var groupedData = rawData
+                .GroupBy(rd => rd.Status)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.GroupBy(x => x.MonthNumber)
+                          .ToDictionary(gg => gg.Key, gg => gg.Count())
+                );
+
+
+            var result = targetStatuses
+                .Select(status => new
+                {
+                    id = status,
+                    data = allMonths.Select(month => new
                     {
-                        x = Get_Month(g.Key),
+                        x = Get_Month(month),
+                        y = groupedData.ContainsKey(status) && groupedData[status].ContainsKey(month)
+                            ? groupedData[status][month]
+                            : 0
+                    }).ToList()
+                })
+                .ToList();
 
-                        y = _context.Applications.Where(app => app.Status != null && app.Status == group.Key && app.Date != null && app.Date.Substring(5, 2).Equals(g.Key)).Count(),
-
-                    })
-                    .ToList()
-            })
-            .ToListAsync(); // Now this works!
-
-
-            return Ok(returnval);
+            return Ok(result);
         }
 
 
@@ -323,67 +343,7 @@ namespace SoberPath_API.Controllers
             return Ok();
         }
 
-        private static int GetIso8601WeekOfYear(DateTime date)
-        {
-            // ISO 8601 week starts on Monday
-            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(date);
-            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
-            {
-                date = date.AddDays(3); // move date to Thursday of the same week
-            }
-
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(
-                date,
-                CalendarWeekRule.FirstFourDayWeek,
-                DayOfWeek.Monday
-            );
-        }
-
-
-
-        [HttpGet("GetWeeklyStats/{clientId}")]
-        public async Task<ActionResult<IEnumerable<WeeklyStatsDto>>> GetWeeklyStats(int clientId)
-        {
-            var substances = await _context.Substances
-                .Include(s => s.Records)
-                .Where(s => s.ClientId == clientId)
-                .ToListAsync();
-
-            if (!substances.Any())
-                return NotFound("No substances found for this client.");
-
-            var results = new List<WeeklyStatsDto>();
-
-            foreach (var substance in substances)
-            {
-                var records = substance.Records ?? new List<Records>();
-
-                // Group records by ISO week number
-                var weeklyData = records
-                .Where(r => r.RecordedDate != null && r.Quantity != null)
-                .GroupBy(r => GetIso8601WeekOfYear(r.RecordedDate.Value.ToDateTime(TimeOnly.MinValue)))
-                .OrderBy(g => g.Key)
-                .Select(g => new
-                {
-                    WeekNumber = "W" + g.Key,
-                    Total = g.Sum(r => r.Quantity ?? 0)
-                })
-                .ToList();
-
-
-                var dto = new WeeklyStatsDto
-                {
-                    SubstanceName = substance.Name ?? "Unknown",
-                    Unit = substance.unit ?? "",
-                    WeekNumbers = weeklyData.Select(w => w.WeekNumber).ToList(),
-                    WeeklyTotals = weeklyData.Select(w => w.Total).ToList()
-                };
-
-                results.Add(dto);
-            }
-
-            return Ok(results);
-        }
+        
 
 
         [HttpGet("GetThresholdStats/{clientId}")]

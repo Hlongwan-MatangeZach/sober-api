@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SoberPath_API.Context;
+using SoberPath_API.Hobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,40 +9,50 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Sober_Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
-
-// CORS Configuration
+// CORS Configuration - FIXED
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        // For development, we allow all origins.
-        // In production, this should be replaced with a specific list of allowed origins.
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+     
+
+        policy
+            .WithOrigins("http://localhost:2025")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();  // Required for SignalR with authentication
     });
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
-
     app.MapScalarApiReference();
     app.MapOpenApi();
-
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseRouting();
 
-// Use the CORS policy. This must be placed after UseRouting and before UseAuthorization.
-app.UseCors("AllowAll");
+// CORS must come after UseRouting but before UseAuthorization and endpoints
+app.UseCors("AllowSpecificOrigins");
 
 app.UseAuthorization();
 
-app.MapControllers();
+// Endpoints
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<NotificationHub>("/notificationHub");
+});
 
 app.Run();
