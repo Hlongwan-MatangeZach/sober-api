@@ -1857,18 +1857,8 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsRAController",
-    "Method": "Get_Client_RaceStats",
-    "RelativePath": "api/StatsRA/Clients_Race_Stats",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "SoberPath_API.Controllers.StatsRAController",
     "Method": "Get_GenderPercentage",
-    "RelativePath": "api/StatsRA/Gender_percentage",
+    "RelativePath": "api/StatsRA/Approved_Gender_Stats",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1877,8 +1867,8 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.StatsRAController",
-    "Method": "Get_current_month_applications",
-    "RelativePath": "api/StatsRA/Get_curent_month_applications",
+    "Method": "Get_Client_RaceStats",
+    "RelativePath": "api/StatsRA/Approved_Race_Stats",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -1889,6 +1879,16 @@
     "ContainingType": "SoberPath_API.Controllers.StatsRAController",
     "Method": "GetCurrent_approvals",
     "RelativePath": "api/StatsRA/Get_current_approvals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.StatsRAController",
+    "Method": "Get_current_month_applications",
+    "RelativePath": "api/StatsRA/Get_current_month_applications",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

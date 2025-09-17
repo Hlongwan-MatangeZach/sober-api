@@ -94,7 +94,7 @@ namespace SoberPath_API.NewFolder
             <p>Ready to begin?</p>
         </div>
         <div class=""button-container"">
-            <a href=""http://localhost:2025/elegent/authentication/login"" class=""button"">Start Your Journey Now</a>
+            <a href=""http://localhost:2025/authentication/login"" class=""button"">Start Your Journey Now</a>
         </div>
         <div class=""content"">
             <p>If you have any questions or need immediate assistance, please don't hesitate to reach out to our support team as seen on our website.</p>
@@ -215,11 +215,11 @@ namespace SoberPath_API.NewFolder
             <p>To reset your password, please click the button below:</p>
         </div>
         <div class=""button-container"">
-            <a href=""http://localhost:2025/elegent/authentication/newpassword/"" class=""button"">Reset Password</a>
+            <a href=""http://localhost:2025/authentication/newpassword/"" class=""button"">Reset Password</a>
         </div>
         <div class=""content"">
             <p>Alternatively, you can copy and paste this link into your browser:</p>
-            <p><a href=""http://localhost:2025/elegent/authentication/newpassword/"">Click here</a></p>
+            <p><a href=""http://localhost:2025/authentication/newpassword/"">Click here</a></p>
             
             <p class=""warning"">This link will expire in 24 hours for security reasons.</p>
             

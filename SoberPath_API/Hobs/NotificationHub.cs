@@ -17,7 +17,7 @@ namespace SoberPath_API.Hobs
             await _context.SaveChangesAsync();
             
 
-            await Clients.Caller.SendAsync("sw_application_verification", app);
+            await Clients.All.SendAsync("sw_application_verification", app);
         }
 
 
@@ -38,6 +38,18 @@ namespace SoberPath_API.Hobs
 
             await Clients.All.SendAsync("rehab_application_notification", applications);
 
+        }
+
+        public async Task SetAs_Read(int id)
+        {
+            var obj_application = await _context.Applications.Where(app => app.Id ==id).FirstOrDefaultAsync();
+            if(obj_application!=null)
+            {
+                obj_application.IsRead = true;
+            }
+
+
+            await Clients.Caller.SendAsync("success", "Success message");
         }
 
     }

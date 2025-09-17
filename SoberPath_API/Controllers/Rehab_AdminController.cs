@@ -177,15 +177,23 @@ namespace SoberPath_API.Controllers
 
             application.Status = "Discharged";
 
-            var reason =await _context.Rehab_disharges.Where(ds=>ds.ApplicationId == id).FirstOrDefaultAsync();
-            if(reason == null)
+            var reason =await _context.Rehab_disharges.Where(ds=>ds.ApplicationId == application.Id).FirstOrDefaultAsync();
+            if(reason != null)
             {
-                return NotFound();
+                reason.Disharge_Reason = value;
+                reason.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                Rehab_Disharge newObj = new Rehab_Disharge();
+                newObj.Disharge_Reason = value;
+                newObj.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
+                 _context.Rehab_disharges.Add(newObj);
+
             }
 
-            reason.Disharge_Reason=value;
-            reason.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
 
+                
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -260,6 +268,7 @@ namespace SoberPath_API.Controllers
             for (var i = 0; i < list.Count(); i++)
             {
                 list[i].Status = "Pending";
+                list[i].IsRead = false;
 
             }
 
@@ -280,12 +289,14 @@ namespace SoberPath_API.Controllers
             for (var i = 0; i < list.Count(); i++)
             {
                 list[i].ClientId = null;
+                list[i].IsRead = false;
 
             }
 
             await _context.SaveChangesAsync();
             return Ok();
         }
+
 
         [HttpPost("Set_Application_Read/{id}")]
         public async Task<ActionResult> Set_Isead(int id)

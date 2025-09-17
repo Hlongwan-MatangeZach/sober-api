@@ -20,7 +20,7 @@ namespace SoberPath_API.Controllers
             {
 
                 status = app.Status,
-                id = app.ClientId,
+                id = app.Id,
                 clientid = app.ClientId,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
                 surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
