@@ -66,7 +66,8 @@ var app = builder.Build();
 app.UseCors("AllowAll");  // SINGLE CORS middleware AFTER UseHttpsRedirection
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<Rehab_NotificationHub>("/rehab_notificationHub");
+app.MapHub <SW_NotificationHub > ("/sw_notificationHub");
 
 if (app.Environment.IsDevelopment())
 {

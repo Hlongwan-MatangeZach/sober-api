@@ -38,7 +38,7 @@ namespace SoberPath_API.Controllers
         [HttpGet("GetSentApplications")]
         public async Task<ActionResult> GetSentApplications()
         {
-            var anonymous = await _context.Applications.Where(application => application.Status != null).Select(application => new
+            var anonymous = await _context.Applications.OrderByDescending(app=>app.Id).Where(application => application.Status != null).Select(application => new
             {
                 status = application.Status,
                 clientid = _context.Clients.Where(cl => application.ClientId == cl.Id).Select(cl => cl.Id).FirstOrDefault(),
@@ -61,7 +61,7 @@ namespace SoberPath_API.Controllers
         public async Task<ActionResult> GetApproved()
         {
 
-            var anonymous = await _context.Applications.Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
+            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
             application.Status != null && application.Status.Equals("Approved & Allocated")).Select(application => new
             {
 
@@ -132,7 +132,8 @@ namespace SoberPath_API.Controllers
                 ClientId = clientId,
                 Social_WorkerId = social_workerId,
                 Status = "Pending",
-                HasRelapse = false
+                HasRelapse = false,
+                IsRead=false,
             };
 
             if (file != null && file.Length > 0)

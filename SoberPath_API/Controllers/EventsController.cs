@@ -67,6 +67,7 @@ namespace SoberPath_API.Controllers
                 return BadRequest("Invalid time format. Use HH:mm");
             }
 
+            calendarEvent.IsRead = false;
             _context.Events.Add(calendarEvent);
             await _context.SaveChangesAsync();
 

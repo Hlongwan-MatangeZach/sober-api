@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoberPath_API.Context;
@@ -167,6 +168,37 @@ namespace SoberPath_API.Controllers
                 .ToListAsync();
 
             return Ok(clients);
+        }
+
+        [HttpGet("Updates")]
+
+        public async Task<IActionResult> Get(int id)
+        {
+            
+            var updates = await _context.Applications.Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null).Select(app => new
+            {
+                Id = app.Id,
+                type = "status_change",
+                title = "Application Status Updated",
+                message = "Application for the client has changed, see new status update",
+                clientName = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
+                clientId = app.ClientId,
+                applicationId = app.Id,
+                priority = "high",
+                timestamp = app.Status_Update_Date,
+                isRead = app.IsRead,
+            }).ToListAsync();
+
+
+            if(updates==null)
+            {
+                return BadRequest();
+
+            }
+
+            return Ok(updates);
+
+        
         }
     }
 }

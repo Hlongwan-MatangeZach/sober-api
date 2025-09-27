@@ -11,6 +11,8 @@
         public string? StartTime { get; set; }
         public string? EndTime { get; set; }
 
+        public bool? IsRead { get; set; }
+
         //foreign keys 
         public int? Social_Id { get; set; }
         public int? Client_Id { get; set; }

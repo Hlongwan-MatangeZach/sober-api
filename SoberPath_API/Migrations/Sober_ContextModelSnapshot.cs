@@ -134,6 +134,9 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("NGO_AdminId")
                         .HasColumnType("int");
 

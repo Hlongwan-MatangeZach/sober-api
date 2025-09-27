@@ -135,6 +135,7 @@ namespace SoberPath_API.Controllers
             application.Status = newStatus;
             application.RejectionReason = comment;
             application.Status_Update_Date = DateTime.Now.Date.ToString();
+            application.IsRead = false;
             await _context.SaveChangesAsync();
             return NoContent();
 

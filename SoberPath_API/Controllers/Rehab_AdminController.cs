@@ -176,9 +176,10 @@ namespace SoberPath_API.Controllers
             }
 
             application.Status = "Discharged";
+            application.IsRead = false;
 
-            var reason =await _context.Rehab_disharges.Where(ds=>ds.ApplicationId == application.Id).FirstOrDefaultAsync();
-            if(reason != null)
+            var reason = await _context.Rehab_disharges.Where(ds => ds.ApplicationId == application.Id).FirstOrDefaultAsync();
+            if (reason != null)
             {
                 reason.Disharge_Reason = value;
                 reason.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
@@ -188,12 +189,12 @@ namespace SoberPath_API.Controllers
                 Rehab_Disharge newObj = new Rehab_Disharge();
                 newObj.Disharge_Reason = value;
                 newObj.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
-                 _context.Rehab_disharges.Add(newObj);
+                _context.Rehab_disharges.Add(newObj);
 
             }
 
 
-                
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -223,7 +224,15 @@ namespace SoberPath_API.Controllers
                 findApplication.Status = "Approved & Allocated";
 
                 _context.rooms.Add(roomdetails);
+                var application_associated = await _context.Applications.Where(app => app.ClientId == roomdetails.ClientId).FirstOrDefaultAsync();
+                if (application_associated != null)
+                {
+                    application_associated.IsRead = false;
+                }
             }
+
+
+
 
 
             await _context.SaveChangesAsync();
@@ -311,6 +320,147 @@ namespace SoberPath_API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("SW_notification/{id}")]
+        public async Task<IActionResult> Get_notifications(int id)
+        {
+            var statusupdates = await _context.Applications
+                .Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null)
+                .Select(app => new
+                {
+                    Id = app.Id,
+                    type = "status_change",
+                    title = "Application Status Updated",
+                    message = "Application for the client has changed, see new status update",
+                    clientName = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
+                    clientId = app.ClientId,
+                    applicationId = app.Id,
+                    priority = "high",
+                    timestamp = app.Status_Update_Date,
+                    isRead = app.IsRead,
+                }).ToListAsync();
+
+            // Get recent events for the social worker
+            var eventNotifications = await _context.Events
+                .Where(e => e.Social_Id == id && e.Date != null) // Filter by social worker ID
+                .OrderByDescending(e => e.Date)
+                .Take(20) // Limit to recent 20 events
+                .Select(e => new
+                {
+                    Id = e.Id + 1000000, // Offset to avoid ID conflicts with applications
+                    type = "new_event",
+                    title = "Calendar Event",
+                    message = $"Event '{e.Title}' - {e.Description}",
+                    clientName = e.Client_Id != null ?
+                        _context.Clients.Where(c => c.Id == e.Client_Id).Select(c => c.Name).FirstOrDefault() : null,
+                    clientId = e.Client_Id,
+                    applicationId = (int?)null,
+                    eventId = e.Id,
+                    priority = "medium",
+                    timestamp = e.Date, // Use the event date as timestamp
+                    isRead = false,
+                    metadata = new
+                    {
+                        eventType = "calendar_event",
+                        startTime = e.StartTime,
+                        endTime = e.EndTime,
+                        description = e.Description
+                    }
+                }).ToListAsync();
+
+            var allNotifications = eventNotifications.Cast<object>().Concat(statusupdates.Cast<object>()).OrderByDescending(n => ((dynamic)n).timestamp).ToList();
+
+            return Ok(allNotifications);
+            //await Clients.Caller.SendAsync("StatusUpdates", allNotifications);
+        }
+
+
+        [HttpGet("GetRoomDetails/{clientid}")]
+        public async Task<IActionResult> GetRoomDetails(int clientid)
+        {
+            try
+            {
+                // Assuming you have a DbContext or repository to access the database
+                var room = await _context.rooms
+                    .FirstOrDefaultAsync(r => r.ClientId == clientid);
+
+                if (room == null)
+                {
+                    return NotFound($"No room found for client ID: {clientid}");
+                }
+
+                // Map to the structure expected by frontend
+                var roomDetails = new
+                {
+                    buildingName = room.BuildingName,
+                    roomNumber = room.RoomNumber,
+                    allocatedDate = room.AllocatedDate,
+                    expectedCheckOutDate = DateTime.Parse(room.AllocatedDate ?? DateTime.Now.ToString())
+                        .AddDays(90).ToString("yyyy-MM-dd") // Assuming 90-day program
+                };
+
+                return Ok(roomDetails);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetProgress/{clientid}")]
+        public async Task<IActionResult> GetProgress(int clientid)
+        {
+            try
+            {
+                // Get all progress records for the specific client
+                var progressRecords = await _context.Rehabilitation_Progresses
+                    .Where(p => p.ClientId == clientid)
+                    .OrderBy(p => p.Date) // Order by date to show chronological progress
+                    .ToListAsync();
+
+                if (progressRecords == null || !progressRecords.Any())
+                {
+                    return NotFound($"No progress records found for client ID: {clientid}");
+                }
+
+                // Map to the structure expected by frontend
+                var formattedProgress = progressRecords.Select(p => new
+                {
+                    id = p.Id,
+                    date = p.Date,
+                    progress = p.Progress
+                }).ToList();
+
+                return Ok(formattedProgress);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+
+        [HttpPost("SetasRead/{appid}")]
+
+        public async Task<IActionResult> SetAs_Read(int appid)
+        {
+            var obj_application = await _context.Applications.Where(app => app.Id == appid).FirstOrDefaultAsync();
+            if (obj_application == null)
+            {
+                return NotFound();
+            }
+
+
+            obj_application.IsRead = true;
+            await _context.SaveChangesAsync();
+
+
+            return NoContent();
+        }
+
+
 
 
 

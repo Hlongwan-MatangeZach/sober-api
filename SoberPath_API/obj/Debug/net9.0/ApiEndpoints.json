@@ -1210,6 +1210,22 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "GetProgress",
+    "RelativePath": "api/Rehab_Admin/GetProgress/{clientid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
     "Method": "GetRehab_AdminById",
     "RelativePath": "api/Rehab_Admin/GetRehab_Admin_ById/{id}",
     "HttpMethod": "GET",
@@ -1253,6 +1269,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "GetRoomDetails",
+    "RelativePath": "api/Rehab_Admin/GetRoomDetails/{clientid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
@@ -1320,6 +1352,38 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "SetAs_Read",
+    "RelativePath": "api/Rehab_Admin/SetasRead/{appid}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "Get_notifications",
+    "RelativePath": "api/Rehab_Admin/SW_notification/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1626,6 +1690,22 @@
         "Name": "socialWorkerId",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Socail_WorkerController",
+    "Method": "Get",
+    "RelativePath": "api/Socail_Worker/Updates",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
