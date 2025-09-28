@@ -17,11 +17,14 @@ namespace SoberPath_API.Controllers
         [HttpGet("GetAssignedClients/{id}")]
         public async Task<ActionResult<Client>> GetAssignedClients(int id)
         {
-            var clients = await _context.Clients.Where(cl => cl.Social_WorkerId == id).ToListAsync();
-            if(clients==null)
-            {
-                return NotFound();
+            var clients = await _context.Clients
+                .Where(cl => cl.Social_WorkerId == id)
+                .OrderByDescending(cl => cl.Social_Worker_Assigned_Date)
+                .ToListAsync();
 
+            if (clients == null || !clients.Any())
+            {
+                return NotFound("No clients found for this social worker");
             }
 
             return Ok(clients);

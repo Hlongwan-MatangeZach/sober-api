@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoberPath_API.Context;
 
@@ -11,9 +12,11 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    partial class Sober_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250927114910_dxfghjk")]
+    partial class dxfghjk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,9 +157,6 @@ namespace SoberPath_API.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("creationDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -537,9 +537,6 @@ namespace SoberPath_API.Migrations
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("Social_Worker_Assigned_Date")
-                        .HasColumnType("datetime2");
 
                     b.HasIndex("Social_WorkerId");
 

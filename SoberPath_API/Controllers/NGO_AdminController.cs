@@ -141,13 +141,11 @@ namespace SoberPath_API.Controllers
             var found_client = await _context.Clients.FindAsync(id);
             if (id > 0 && newClient != null)
             {
-
                 if (found_client != null)
                 {
                     if (newClient.Name != null)
                     {
                         found_client.Name = newClient.Name;
-
                     }
                     if (newClient.Surname != null)
                     {
@@ -166,7 +164,6 @@ namespace SoberPath_API.Controllers
                     if (newClient.Address != null)
                     {
                         found_client.Address = newClient.Address;
-
                     }
 
                     if (newClient.ID_Number != null)
@@ -182,30 +179,36 @@ namespace SoberPath_API.Controllers
                     if (newClient.EmailAddress != null)
                     {
                         found_client.EmailAddress = newClient.EmailAddress;
-
                     }
                     if (newClient.Password != null)
                     {
                         found_client.Password = newClient.Password;
-
                     }
-
-
 
                     if (newClient.Social_WorkerId != null)
                     {
-                        found_client.Social_WorkerId = newClient.Social_WorkerId;
+                        // Check if social worker is actually being changed
+                        if (found_client.Social_WorkerId != newClient.Social_WorkerId)
+                        {
+                            found_client.Social_WorkerId = newClient.Social_WorkerId;
+                            found_client.Social_Worker_Assigned_Date = DateTime.Now;
+                        }
+                        else
+                        {
+                            // Social worker ID is the same, just update without changing date
+                            found_client.Social_WorkerId = newClient.Social_WorkerId;
+                        }
                     }
+                    // Note: If newClient.Social_WorkerId is null, we don't change the existing social worker ID
                 }
                 else
                 {
-                    BadRequest("Client not found");
+                    return BadRequest("Client not found");
                 }
-
             }
             else
             {
-                BadRequest("ID and Client objects are null");
+                return BadRequest("ID and Client objects are null");
             }
 
             await _context.SaveChangesAsync();

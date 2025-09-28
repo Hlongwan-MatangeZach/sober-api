@@ -21,7 +21,6 @@ namespace SoberPath_API.Controllers
 
                 status = app.Status,
                 id = app.Id,
-                clientid = app.ClientId,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
                 surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
 
@@ -57,45 +56,52 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpGet("GetApprovedApplications")]
+
         public async Task<ActionResult> GetApproved()
         {
 
-            var returnval = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).Select(app => new
+            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
+            application.Status != null && application.Status.Equals("Approved & Allocated")).Select(application => new
             {
-                id = app.ClientId,
-                Name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
-                surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
-                id_number = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.ID_Number).FirstOrDefault(),
-                Gender = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Gender).FirstOrDefault(),
-                Nok_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == app.ClientId).Select(nok => nok.Name).FirstOrDefault(),
-                Nok_Surname = _context.Next_Of_Kins.Where(nok => nok.ClientId == app.ClientId).Select(nok => nok.Surname).FirstOrDefault(),
-                Nok_phone = _context.Next_Of_Kins.Where(Nok => Nok.ClientId == app.ClientId).Select(nok => nok.Phone_number).FirstOrDefault()
-            }).ToArrayAsync();
+
+                Name = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Name).FirstOrDefault(),
+                Surname = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
+                ID_number = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.ID_Number).FirstOrDefault(),
+                Gender = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Gender).FirstOrDefault(),
+                NOK_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Name).FirstOrDefault(),
+                NOK_Phone = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Phone_number).FirstOrDefault(),
+                id = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Id).FirstOrDefault(),
 
 
-            return Ok(returnval);
+
+
+            }).ToListAsync();
+
+            if (anonymous == null)
+            {
+                return NotFound("Applications not found");
+            }
+
+            return Ok(anonymous);
         }
 
         [HttpGet("GetApplicationData/{id}")]
-        public async Task<ActionResult> GetApplocationData(int id)
+        public async Task<ActionResult> GetApplicationData(int id)
         {
             var application = await _context.Applications.Where(app => app.ClientId == id).FirstOrDefaultAsync();
             if (application == null)
             {
                 return NotFound();
-
             }
 
             var returnval = new
             {
-                id = application.Id,
                 applicationDate = application.Date,
-                editableReason = application.RejectionReason,
                 summary = application.Summary,
+                fileName = application.FileName, // Added FileName
+                contentType = application.ContentType, // Added ContentType
                 substances = _context.Substances.Where(sub => sub.ClientId == id).Select(sub => sub.Name).ToList(),
                 socialWorkerName = _context.Social_Workers.Where(sw => sw.Id == application.Social_WorkerId).Select(sw => sw.Name).FirstOrDefault(),
-                fileName = application.FileName,
-                content = application.Data
             };
 
             return Ok(returnval);
@@ -109,11 +115,11 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpPost("CreateApplication")]
-        public async Task<IActionResult> CreateApplication([FromForm] IFormFile? file,
+        public async Task<IActionResult> CreateApplication([FromForm] List<IFormFile> files,
          [FromForm] string? date,
-         [FromForm] string? summary,
-         [FromForm] int? clientId,
-         [FromForm] int? social_workerId)
+     [FromForm] string? summary,
+     [FromForm] int? clientId,
+     [FromForm] int? social_workerId)
         {
             var application = new Application
             {
@@ -122,17 +128,24 @@ namespace SoberPath_API.Controllers
                 ClientId = clientId,
                 Social_WorkerId = social_workerId,
                 Status = "Pending",
-                HasRelapse = false
+                HasRelapse = false,
+                IsRead = false,
             };
 
-            if (file != null && file.Length > 0)
+            // Handle multiple files
+            if (files != null && files.Count > 0)
             {
-                using var ms = new MemoryStream();
-                await file.CopyToAsync(ms);
+                // For simplicity, taking the first file
+                var file = files[0];
+                if (file.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await file.CopyToAsync(ms);
 
-                application.FileName = file.FileName;
-                application.ContentType = file.ContentType;
-                application.Data = ms.ToArray();
+                    application.FileName = file.FileName;
+                    application.ContentType = file.ContentType;
+                    application.Data = ms.ToArray();
+                }
             }
 
             _context.Applications.Add(application);
@@ -140,7 +153,6 @@ namespace SoberPath_API.Controllers
 
             return Ok(new { application.Id, application.FileName, application.Status });
         }
-
 
         [HttpGet("DownloadFile/{id}")]
         public async Task<IActionResult> DownloadFile(int id)

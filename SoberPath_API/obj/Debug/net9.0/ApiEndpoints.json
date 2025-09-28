@@ -8,33 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "ContentType",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "ContentDisposition",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "Headers",
-        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
-        "IsRequired": false
-      },
-      {
-        "Name": "Length",
-        "Type": "System.Int64",
-        "IsRequired": false
-      },
-      {
-        "Name": "Name",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "FileName",
-        "Type": "System.String",
+        "Name": "files",
+        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
         "IsRequired": false
       },
       {
@@ -88,7 +63,7 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.ApplicationController",
-    "Method": "GetApplocationData",
+    "Method": "GetApplicationData",
     "RelativePath": "api/Application/GetApplicationData/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -441,6 +416,22 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.ClientController",
+    "Method": "GetClientAssignmentInfo",
+    "RelativePath": "api/Client/GetClientAssignmentInfo/{clientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.ClientController",
     "Method": "GetClientById",
     "RelativePath": "api/Client/GetClientById/{id}",
     "HttpMethod": "GET",
@@ -631,6 +622,22 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.EventController",
+    "Method": "GetClientEvents",
+    "RelativePath": "api/Event/GetClientEvents/{clientId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientId",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -1407,6 +1414,22 @@
   },
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "GetProgress",
+    "RelativePath": "api/Rehab_Admin/GetProgress/{clientid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
     "Method": "GetRehab_AdminById",
     "RelativePath": "api/Rehab_Admin/GetRehab_Admin_ById/{id}",
     "HttpMethod": "GET",
@@ -1450,6 +1473,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "GetRoomDetails",
+    "RelativePath": "api/Rehab_Admin/GetRoomDetails/{clientid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
@@ -1517,6 +1556,22 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
+    "Method": "SetAs_Read",
+    "RelativePath": "api/Rehab_Admin/SetasRead/{appid}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -1657,6 +1712,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.SessionController",
+    "Method": "GetSessionsByUser",
+    "RelativePath": "api/Session/GetSessionsByUser/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "SoberPath_API.Controllers.SessionController",

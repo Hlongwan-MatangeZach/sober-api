@@ -34,6 +34,27 @@ namespace SoberPath_API.Controllers
             return Ok(Social_Worker_);
         }
 
+        [HttpGet("GetSessionsByUser/{userId}")]
+        public async Task<ActionResult> GetSessionsByUser(int userId)
+        {
+            var sessions = await _context.Sessions
+                .Where(cl => cl.ClientId == userId)
+                .Select(cl => new
+                {
+                    SessionType = cl.Type,
+                    Date = cl.Date,
+                    session_Note = cl.Session_Note
+                })
+                .ToListAsync();
+
+            if (sessions == null || !sessions.Any())
+            {
+                return NotFound(new { message = "No sessions found for this user." });
+            }
+
+            return Ok(sessions);
+        }
+
         [HttpPost("Add_Session{clientId}/{sw_id }")]
         public async Task<ActionResult<Session>> Add_Session_Admin(int clientId,int sw_id,Session session)
         {

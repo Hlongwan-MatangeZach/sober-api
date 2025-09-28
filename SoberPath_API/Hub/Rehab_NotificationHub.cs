@@ -6,7 +6,7 @@ using SoberPath_API.Controllers;
 
 namespace SoberPath_API.Hobs
 {
-    public class NotificationHub(Sober_Context context) : Hub
+    public class Rehab_NotificationHub(Sober_Context context) : Hub
     {
         private readonly Sober_Context _context = context;
 
@@ -39,6 +39,19 @@ namespace SoberPath_API.Hobs
             await Clients.All.SendAsync("rehab_application_notification", applications);
 
         }
+
+        public async Task SetAs_Read(int id)
+        {
+            var obj_application = await _context.Applications.Where(app => app.Id == id).FirstOrDefaultAsync();
+            if (obj_application != null)
+            {
+                obj_application.IsRead = true;
+            }
+
+
+            await Clients.Caller.SendAsync("success", "Success message");
+        }
+
 
     }
 }

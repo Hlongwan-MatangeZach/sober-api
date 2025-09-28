@@ -295,7 +295,47 @@ namespace SoberPath_API.Controllers
             return Ok(client.Social_WorkerId);
         }
 
-      
+        [HttpGet("GetClientAssignmentInfo/{clientId}")]
+        public async Task<ActionResult> GetClientAssignmentInfo(int clientId)
+        {
+            var client = await _context.Clients
+                .Where(c => c.Id == clientId && c.Social_WorkerId != null)
+                .FirstOrDefaultAsync();
+
+            if (client == null)
+            {
+                return NotFound("Client not found or not assigned to any social worker");
+            }
+
+            var socialWorker = await _context.Social_Workers
+                .Where(sw => sw.Id == client.Social_WorkerId.Value)
+                .Select(sw => new { sw.Name, sw.Surname })
+                .FirstOrDefaultAsync();
+
+            if (socialWorker == null)
+            {
+                return NotFound("Social worker not found");
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = "Assignment info retrieved successfully",
+                data = new[] {
+        new {
+            id = client.Id,
+            title = "Social Worker Assignment",
+            message = $"Client {client.Name} {client.Surname} assigned to Social Worker  {socialWorker.Name} {socialWorker.Surname}",
+            createdDate = client.Social_Worker_Assigned_Date.Value.ToString("yyyy-MM-dd HH:mm"),
+            isRead = false,
+            relatedClientId = client.Id,
+            clientName = client.Name + " " + client.Surname
+        }
+    }
+            });
+        }
+
+
     }
 
 

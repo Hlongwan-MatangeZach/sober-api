@@ -16,31 +16,62 @@ namespace SoberPath_API.Controllers
         [HttpPost("UserLogin/{username}/{password}")]
         public async Task<ActionResult> Login(string username, string password)
         {
-            var determin_array = new int[3];
-
-            var find_user = await _context.Users.FirstOrDefaultAsync(client => client.EmailAddress == username && client.Password == password);
-
-            
-            //var socialWorkerId = await GetSW_Id(find_user.Id);
-            return Ok(new
+            try
             {
-                user_id = find_user.Id,
-                first_name = find_user.Name,
-                surname = find_user.Surname,
-                type = find_user.GetType().Name,
-                social_id = await GetSW_Id(find_user.Id),
-            });
+                // Validate input parameters
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    return BadRequest(new { error = "Username and password are required" });
+                }
+
+                var find_user = await _context.Users.FirstOrDefaultAsync(client =>
+                    client.EmailAddress == username && client.Password == password);
+
+                // Check if user exists and credentials are correct
+                if (find_user == null)
+                {
+                    return Unauthorized(new { error = "Invalid email or password" });
+                }
+
+                // Safely get social worker ID with null handling
+                var socialWorkerId = await GetSW_Id(find_user.Id);
+
+                return Ok(new
+                {
+                    user_id = find_user.Id,
+                    first_name = find_user.Name ?? string.Empty,
+                    surname = find_user.Surname ?? string.Empty,
+                    type = find_user.GetType().Name,
+                    social_id = socialWorkerId,
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here (you should add logging)
+                // _logger.LogError(ex, "Error during login");
+                return StatusCode(500, new { error = "An internal server error occurred" });
+            }
         }
+
         private async Task<int> GetSW_Id(int clientId)
         {
-            var client = await _context.Clients.FindAsync(clientId);
-
-            if (client == null)
+            try
             {
-                return 0;
-            }
+                var client = await _context.Clients.FindAsync(clientId);
 
-            return (int)client.Social_WorkerId;
+                if (client == null || client.Social_WorkerId == null)
+                {
+                    return 0; // Return 0 instead of null for social worker ID
+                }
+
+                return (int)client.Social_WorkerId;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // _logger.LogError(ex, "Error getting social worker ID for client {ClientId}", clientId);
+                return 0; // Return default value in case of error
+            }
         }
 
 

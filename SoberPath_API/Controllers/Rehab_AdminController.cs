@@ -176,6 +176,7 @@ namespace SoberPath_API.Controllers
             }
 
             application.Status = "Discharged";
+            application.IsRead = false;
 
             var reason = await _context.Rehab_disharges.Where(ds => ds.ApplicationId == application.Id).FirstOrDefaultAsync();
             if (reason != null)
@@ -197,6 +198,7 @@ namespace SoberPath_API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
 
 
         [HttpPost("AllocaeRoom")]
@@ -306,6 +308,90 @@ namespace SoberPath_API.Controllers
 
             find_app.IsRead = true;
             await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        [HttpGet("GetRoomDetails/{clientid}")]
+        public async Task<IActionResult> GetRoomDetails(int clientid)
+        {
+            try
+            {
+                // Assuming you have a DbContext or repository to access the database
+                var room = await _context.rooms
+                    .FirstOrDefaultAsync(r => r.ClientId == clientid);
+
+                if (room == null)
+                {
+                    return NotFound($"No room found for client ID: {clientid}");
+                }
+
+                // Map to the structure expected by frontend
+                var roomDetails = new
+                {
+                    buildingName = room.BuildingName,
+                    roomNumber = room.RoomNumber,
+                    allocatedDate = room.AllocatedDate,
+                    expectedCheckOutDate = DateTime.Parse(room.AllocatedDate ?? DateTime.Now.ToString())
+                        .AddDays(90).ToString("yyyy-MM-dd") // Assuming 90-day program
+                };
+
+                return Ok(roomDetails);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("GetProgress/{clientid}")]
+        public async Task<IActionResult> GetProgress(int clientid)
+        {
+            try
+            {
+                // Get all progress records for the specific client
+                var progressRecords = await _context.Rehabilitation_Progresses
+                    .Where(p => p.ClientId == clientid)
+                    .OrderBy(p => p.Date) // Order by date to show chronological progress
+                    .ToListAsync();
+
+                if (progressRecords == null || !progressRecords.Any())
+                {
+                    return NotFound($"No progress records found for client ID: {clientid}");
+                }
+
+                // Map to the structure expected by frontend
+                var formattedProgress = progressRecords.Select(p => new
+                {
+                    id = p.Id,
+                    date = p.Date,
+                    progress = p.Progress
+                }).ToList();
+
+                return Ok(formattedProgress);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
+
+
+        [HttpPost("SetasRead/{appid}")]
+
+        public async Task<IActionResult> SetAs_Read(int appid)
+        {
+            var obj_application = await _context.Applications.Where(app => app.Id == appid).FirstOrDefaultAsync();
+            if (obj_application == null)
+            {
+                return NotFound();
+            }
+
+
+            obj_application.IsRead = true;
+            await _context.SaveChangesAsync();
+
+
             return NoContent();
         }
 

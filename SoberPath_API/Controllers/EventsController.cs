@@ -14,9 +14,9 @@ namespace SoberPath_API.Controllers
     public class EventController : ControllerBase
     {
         private readonly Sober_Context _context;
-        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IHubContext<Rehab_NotificationHub> _hubContext;
 
-        public EventController(Sober_Context context, IHubContext<NotificationHub> hubContext)
+        public EventController(Sober_Context context, IHubContext<Rehab_NotificationHub> hubContext)
         {
             _context = context;
             _hubContext = hubContext;
@@ -288,6 +288,65 @@ namespace SoberPath_API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+        [HttpGet("GetClientEvents/{clientId}")]
+        public async Task<ActionResult> GetClientEvents(int clientId)
+        {
+            try
+            {
+                var events = await _context.Events
+                    .Where(e => e.Client_Id == clientId)
+                    .OrderBy(e => e.Date)
+                    .ThenBy(e => e.StartTime)
+                    .ToListAsync();
+
+                if (!events.Any())
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "No sessions found for this client.",
+                        data = new List<object>()
+                    });
+                }
+
+                var clientEvents = events.Select(e => new
+                {
+                    id = e.Id, // match Notification.id
+                    title = e.Title ?? "No Topic",
+                    message = e.Description ?? "No Description",
+                    createdDate = e.Date + " - " + (e.StartTime),
+                    isRead = e.IsRead ?? false,
+                    relatedClientId = e.Client_Id,
+                    clientName = _context.Clients
+                        .Where(c => c.Id == e.Client_Id)
+                        .Select(c => c.Name + " " + c.Surname)
+                        .FirstOrDefault() ?? "Unknown Client",
+                    socialWorkerName = e.Social_Id.HasValue
+                        ? _context.Social_Workers
+                            .Where(s => s.Id == e.Social_Id.Value)
+                            .Select(s => s.Name + " " + s.Surname)
+                            .FirstOrDefault() ?? "Not Assigned"
+                        : "Not Assigned",
+                    type = "event" // ADD THIS LINE - matches frontend expectation
+                }).ToList();
+
+                return Ok(new
+                {
+                    success = true,
+                    message = "Client events retrieved successfully",
+                    data = clientEvents
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = $"Internal server error: {ex.Message}",
+                    data = new List<object>()
+                });
             }
         }
 

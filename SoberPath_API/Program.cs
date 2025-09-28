@@ -52,7 +52,9 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapHub<NotificationHub>("/notificationHub");
+    endpoints.MapHub<Rehab_NotificationHub>("/Rehab_NotificationHub");
+    app.MapHub<SW_NotificationHub>("/sw_notificationHub");
+
 });
 
 app.Run();
