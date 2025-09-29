@@ -16,13 +16,15 @@ namespace SoberPath_API.Controllers
         [HttpGet("GetAllApplications")]
         public async Task<ActionResult> GetAllApplications()
         {
-            var applications = await _context.Applications.OrderByDescending(app => app.Id).Where(app => app.Status != null && app.ClientId > 0 && app.ClientId != null).Select(app => new
+            var applications = await _context.Applications.OrderByDescending(app => app.Id).Where(app => app.Status != null && app.ClientId > 0 && app.ClientId != null && app.Date != null).Select(app => new
             {
 
                 status = app.Status,
                 id = app.Id,
+                clientid = app.ClientId,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
                 surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
+                date = app.Date,
 
             }).ToListAsync();
 
@@ -60,7 +62,7 @@ namespace SoberPath_API.Controllers
         public async Task<ActionResult> GetApproved()
         {
 
-            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
+            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && application.Status != null &&
             application.Status != null && application.Status.Equals("Approved & Allocated")).Select(application => new
             {
 
@@ -71,7 +73,8 @@ namespace SoberPath_API.Controllers
                 NOK_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Name).FirstOrDefault(),
                 NOK_Phone = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Phone_number).FirstOrDefault(),
                 id = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Id).FirstOrDefault(),
-
+                date = application.Date,
+                discharge_date=_context.Rehab_Admissions.Where(ra=>ra.ClientId==application.ClientId).Select(ra=>ra.Expected_Dischanrge).FirstOrDefault()
 
 
 
@@ -84,6 +87,7 @@ namespace SoberPath_API.Controllers
 
             return Ok(anonymous);
         }
+
 
         [HttpGet("GetApplicationData/{id}")]
         public async Task<ActionResult> GetApplicationData(int id)
@@ -114,12 +118,13 @@ namespace SoberPath_API.Controllers
             return Ok(returnval);
         }
 
+
         [HttpPost("CreateApplication")]
-        public async Task<IActionResult> CreateApplication([FromForm] List<IFormFile> files,
-         [FromForm] string? date,
-     [FromForm] string? summary,
-     [FromForm] int? clientId,
-     [FromForm] int? social_workerId)
+        public async Task<IActionResult> CreateApplication([FromForm] IFormFile? file,
+  [FromForm] string? date,
+  [FromForm] string? summary,
+  [FromForm] int? clientId,
+  [FromForm] int? social_workerId)
         {
             var application = new Application
             {
@@ -132,22 +137,15 @@ namespace SoberPath_API.Controllers
                 IsRead = false,
             };
 
-            // Handle multiple files
-            if (files != null && files.Count > 0)
+            if (file != null && file.Length > 0)
             {
-                // For simplicity, taking the first file
-                var file = files[0];
-                if (file.Length > 0)
-                {
-                    using var ms = new MemoryStream();
-                    await file.CopyToAsync(ms);
+                using var ms = new MemoryStream();
+                await file.CopyToAsync(ms);
 
-                    application.FileName = file.FileName;
-                    application.ContentType = file.ContentType;
-                    application.Data = ms.ToArray();
-                }
+                application.FileName = file.FileName;
+                application.ContentType = file.ContentType;
+                application.Data = ms.ToArray();
             }
-
             _context.Applications.Add(application);
             await _context.SaveChangesAsync();
 
@@ -163,6 +161,53 @@ namespace SoberPath_API.Controllers
 
             return File(application.Data, application.ContentType ?? "application/octet-stream", application.FileName);
         }
+
+        [HttpPost("Discharge/{id}/{value}")]
+
+        public async Task<ActionResult> Discharge(int id, string value)
+        {
+            var application = await _context.Applications.Where(app => app.Status != null && app.ClientId == id).FirstOrDefaultAsync();
+            if (application == null)
+            {
+                return NotFound();
+            }
+
+            application.Status = "Discharged";
+            application.IsRead = false;
+
+            var reason = await _context.Rehab_disharges.Where(ds => ds.ApplicationId == application.Id).FirstOrDefaultAsync();
+            if (reason != null)
+            {
+                reason.Disharge_Reason = value;
+                reason.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                Rehab_Disharge newObj = new Rehab_Disharge();
+                newObj.Disharge_Reason = value;
+                newObj.Disharge_Date = DateTime.Now.ToString("yyyy-MM-dd");
+                _context.Rehab_disharges.Add(newObj);
+
+            }
+
+            var findroom = await _context.rooms.Where(r => r.ClientId == id).FirstOrDefaultAsync();
+            if (findroom == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                findroom.Occupying = false;
+            }
+
+
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
+
 
     }
 

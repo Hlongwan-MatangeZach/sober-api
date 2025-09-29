@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿
+
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SoberPath_API.Context;
 using SoberPath_API.Models;
@@ -17,13 +19,13 @@ namespace SoberPath_API.Hobs
             await _context.SaveChangesAsync();
 
 
-            await Clients.Caller.SendAsync("sw_application_verification", app);
+            await Clients.All.SendAsync("sw_application_verification", app);
         }
 
 
         public async Task Get_Unread()
         {
-            var applications = await _context.Applications.Where(app => app.IsRead == false && app.ClientId != null && app.Social_WorkerId != null).Select(app => new
+            var applications = await _context.Applications.Where(app => app.IsRead == false && app.ClientId != null && app.Social_WorkerId != null && app.Status == "Pending").Select(app => new
             {
                 id = app.Id,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
@@ -51,7 +53,6 @@ namespace SoberPath_API.Hobs
 
             await Clients.Caller.SendAsync("success", "Success message");
         }
-
 
     }
 }

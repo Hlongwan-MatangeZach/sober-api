@@ -70,10 +70,10 @@ namespace SoberPath_API.Controllers
                     months = emptyMonths,
                     applications = Enumerable.Repeat(0, 12).ToList(),
                     accepted = Enumerable.Repeat(0, 12).ToList(),
-                    rejected = Enumerable.Repeat(0, 12).ToList()
+                    rejected = Enumerable.Repeat(0, 12).ToList(),
+                    pending = Enumerable.Repeat(0, 12).ToList()
                 });
             }
-
             var minDate = new DateTime(applications.Min(a => a.Date).Year, applications.Min(a => a.Date).Month, 1);
             var maxDate = new DateTime(applications.Max(a => a.Date).Year, applications.Max(a => a.Date).Month, 1);
 
@@ -91,6 +91,7 @@ namespace SoberPath_API.Controllers
             var applicationsCount = new List<int>();
             var acceptedCount = new List<int>();
             var rejectedCount = new List<int>();
+            var pendingCount = new List<int>();
 
             foreach (var monthDate in monthsList)
             {
@@ -101,12 +102,16 @@ namespace SoberPath_API.Controllers
                     applicationsCount.Add(appsInMonth.Count);
                     acceptedCount.Add(appsInMonth.Count(a => a.Status == "approved" || a.Status == "approved & allocated"));
                     rejectedCount.Add(appsInMonth.Count(a => a.Status == "rejected"));
+                    pendingCount.Add(appsInMonth.Count(a => a.Status != "approved" &&
+                                                           a.Status != "approved & allocated" &&
+                                                           a.Status != "rejected"));
                 }
                 else
                 {
                     applicationsCount.Add(0);
                     acceptedCount.Add(0);
                     rejectedCount.Add(0);
+                    pendingCount.Add(0);
                 }
             }
 
@@ -115,10 +120,10 @@ namespace SoberPath_API.Controllers
                 months,
                 applications = applicationsCount,
                 accepted = acceptedCount,
-                rejected = rejectedCount
+                rejected = rejectedCount,
+                pending = pendingCount
             });
         }
-
         [HttpGet("clients/gender-stats/{socialWorkerId}")]
         public IActionResult GetGenderStatsForSocialWorker(int socialWorkerId)
         {

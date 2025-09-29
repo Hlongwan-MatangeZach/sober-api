@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoberPath_API.Context;
 
@@ -11,9 +12,11 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    partial class Sober_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250928230417_qsdjfhg")]
+    partial class qsdjfhg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -89,17 +89,27 @@ namespace SoberPath_API.Controllers
         [HttpGet("GetApplications/{id}")]
         public async Task<ActionResult> GetApplications(int id)
         {
-            var applications = await (from app in _context.Applications
-                                      join client in _context.Clients
-                                      on app.ClientId equals client.Id
-                                      where app.Social_WorkerId == id
-                                      select new
-                                      {
-                                          ApplicationStatus = app.Status,
-                                          ClientId = client.Id,
-                                          ClientName = client.Name,
-                                          ClientSurname = client.Surname
-                                      }).ToListAsync();
+            var applications = await _context.Applications.Where(app => app.Social_WorkerId == id && (_context.Clients.Any(cl => cl.Id == app.ClientId && cl.Name != null && cl.Surname != null))).Select(app => new {
+
+                ApplicationStatus = app.Status,
+                ClientId = app.ClientId,
+                ClientName = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
+                ClientSurname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
+                clientEmail = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.EmailAddress).FirstOrDefault(),
+                clientPhone = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Phone_Number).FirstOrDefault(),
+                clientAddress = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Address).FirstOrDefault(),
+                socialWorkerName = _context.Social_Workers.Where(sw => sw.Id == app.Social_WorkerId).Select(sw => sw.Name).FirstOrDefault(),
+                socialWorkerSurname = _context.Social_Workers.Where(sw => sw.Id == app.Social_WorkerId).Select(sw => sw.Surname).FirstOrDefault(),
+                rehabAdminName = _context.Rehab_Admins.Where(r => r.Id == app.Rehab_AdminID).Select(r => r.Name).FirstOrDefault(),
+                rehabAdminSurname = _context.Rehab_Admins.Where(r => r.Id == app.Rehab_AdminID).Select(r => r.Surname).FirstOrDefault(),
+                rejectionReason = app.RejectionReason,
+                roomNumber = _context.rooms.Where(r => r.ClientId == app.ClientId).Select(r => r.RoomNumber).FirstOrDefault(),
+                applicationDate = app.Date,
+                reviewDate = app.Status_Update_Date,
+                admissionDate = _context.Rehab_Admissions.Where(a => a.ClientId == app.ClientId).Select(a => a.Admission_Date).FirstOrDefault(),
+                dischargeDate = _context.Rehab_Admissions.Where(a => a.ClientId == app.ClientId).Select(a => a.Expected_Dischanrge).FirstOrDefault()
+
+            }).ToListAsync();
 
             if (applications == null || !applications.Any())
             {
@@ -110,7 +120,6 @@ namespace SoberPath_API.Controllers
         }
 
 
-       
         [HttpGet("upcoming-sessions/{socialWorkerId}")]
         public async Task<IActionResult> GetUpcomingSessions(int socialWorkerId)
         {

@@ -160,7 +160,7 @@ namespace SoberPath_API.Controllers
                 {
                     return BadRequest("Start time must be before end time");
                 }
-
+                calendarEvent.IsRead = false;
                 _context.Events.Add(calendarEvent);
                 await _context.SaveChangesAsync();
 

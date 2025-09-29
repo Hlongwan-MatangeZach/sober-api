@@ -329,7 +329,6 @@ namespace SoberPath_API.Controllers
             return Ok(result);
         }
 
-
         [HttpGet("Recovery_Trend_Data")]
 
         public async Task<ActionResult> GetRecoveryTrend_Data()

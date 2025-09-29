@@ -48,6 +48,8 @@ namespace SoberPath_API.Controllers
             return Ok(nextOfKins);
         }
 
+
+
         [HttpPost("Edit_Next_of_Kin/{cliendid}")]
         public async Task<ActionResult<Next_of_Kin>> EditNextOfKin(int cliendid, Next_of_Kin newNextOfKin)
         {

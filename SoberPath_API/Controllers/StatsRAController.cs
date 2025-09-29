@@ -15,7 +15,7 @@ namespace SoberPath_API.Controllers
     {
         private readonly Sober_Context _context = context;
 
-        [HttpGet("Total_clients_inhouse")]
+       [HttpGet("Total_clients_inhouse")]
         public async Task<ActionResult> GetTotalClients_inhouse()
         {
             var num = await _context.Applications.Where(app => app.Status != null && app.Status == "Approved & Allocated" && app.ClientId != null).CountAsync();

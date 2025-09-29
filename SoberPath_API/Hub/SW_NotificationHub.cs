@@ -15,7 +15,7 @@ namespace SoberPath_API.Hobs
         {
 
             var statusupdates = await _context.Applications
-                .Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null && app.IsRead == false)
+                .Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null && app.IsRead == false && app.Status != "Pending")
                 .Select(app => new
                 {
                     Id = app.Id,

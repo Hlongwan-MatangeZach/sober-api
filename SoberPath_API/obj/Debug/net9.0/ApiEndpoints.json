@@ -8,8 +8,33 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "files",
-        "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
         "IsRequired": false
       },
       {
@@ -31,6 +56,27 @@
         "Name": "social_workerId",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SoberPath_API.Controllers.ApplicationController",
+    "Method": "Discharge",
+    "RelativePath": "api/Application/Discharge/{id}/{value}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "value",
+        "Type": "System.String",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -537,7 +583,7 @@
   {
     "ContainingType": "SoberPath_API.Controllers.ClientController",
     "Method": "UpdateApplicationStatus",
-    "RelativePath": "api/Client/UpdateApplication/{clientId}/{newStatus}/{comment}",
+    "RelativePath": "api/Client/UpdateApplication/{clientId}/{newStatus}/{comment}/{rehab_id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -555,6 +601,11 @@
       {
         "Name": "comment",
         "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "rehab_id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -1331,7 +1382,7 @@
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
     "Method": "AllocateRoom",
-    "RelativePath": "api/Rehab_Admin/AllocaeRoom",
+    "RelativePath": "api/Rehab_Admin/AllocaeRoom/{discharge_date}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1339,6 +1390,11 @@
       {
         "Name": "roomdetails",
         "Type": "SoberPath_API.Models.Room",
+        "IsRequired": true
+      },
+      {
+        "Name": "discharge_date",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

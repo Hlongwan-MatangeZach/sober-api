@@ -149,7 +149,6 @@ namespace SoberPath_API.Controllers
         }
 
         [HttpPost("Record_progress")]
-
         public async Task<ActionResult> RecordProgress(Rehabilitation_Progress progress)
         {
             if (progress == null)
@@ -163,6 +162,7 @@ namespace SoberPath_API.Controllers
             return NoContent();
 
         }
+
 
 
         [HttpPost("Discharge/{id}/{value}")]
@@ -193,6 +193,16 @@ namespace SoberPath_API.Controllers
 
             }
 
+            var findroom = await _context.rooms.Where(r => r.ClientId == id).FirstOrDefaultAsync();
+            if (findroom == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                findroom.Occupying = false;
+            }
+
 
 
             await _context.SaveChangesAsync();
@@ -201,9 +211,9 @@ namespace SoberPath_API.Controllers
 
 
 
-        [HttpPost("AllocaeRoom")]
+        [HttpPost("AllocaeRoom/{discharge_date}")]
 
-        public async Task<ActionResult> AllocateRoom(Room roomdetails)
+        public async Task<ActionResult> AllocateRoom(Room roomdetails, string discharge_date)
         {
             if (roomdetails == null)
             {
@@ -225,17 +235,42 @@ namespace SoberPath_API.Controllers
                 findApplication.Status = "Approved & Allocated";
 
                 _context.rooms.Add(roomdetails);
+                var application_associated = await _context.Applications.Where(app => app.ClientId == roomdetails.ClientId).FirstOrDefaultAsync();
+                if (application_associated != null)
+                {
+                    application_associated.IsRead = false;
+                }
+
+                Rehab_Admission newAdmission = new Rehab_Admission();
+                newAdmission.Admission_Date = roomdetails.AllocatedDate;
+                newAdmission.ClientId = roomdetails.ClientId;
+                newAdmission.ApplicationId = await _context.Applications.Where(app => app.ClientId == roomdetails.ClientId).Select(app => app.ClientId).FirstOrDefaultAsync();
+                newAdmission.Dischange_status = null;
+                newAdmission.Expected_Dischanrge = discharge_date;
+
+
+                roomdetails.Occupying = true;
+                _context.Rehab_Admissions.Add(newAdmission);
+
+
             }
+
+
+
 
 
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
+
+
+
+
         [HttpGet("Get_OccupiedRooms/{buildingName}")]
         public async Task<ActionResult> GetOcuupiedRooms(string buildingName)
         {
-            var rooms = await _context.rooms.Where(room => room.ClientId != null && room != null && room.BuildingName == buildingName).Select(room => new
+            var rooms = await _context.rooms.Where(room => room.ClientId != null && room != null && room.BuildingName == buildingName && room.Occupying == true).Select(room => new
             {
                 buildingname = buildingName,
                 id = room.RoomNumber,
@@ -245,6 +280,7 @@ namespace SoberPath_API.Controllers
                 allocatedToClientSurname = _context.Clients.Where(cl => cl.Id == room.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
                 allocatedToClientId = room.ClientId,
                 allocationDate = room.AllocatedDate,
+                expectedCheckOutDate = _context.Rehab_Admissions.Where(a => a.ClientId == room.ClientId).Select(a => a.Expected_Dischanrge).FirstOrDefault(),
 
             }).ToListAsync();
             if (rooms == null)
@@ -256,6 +292,8 @@ namespace SoberPath_API.Controllers
             return Ok(rooms);
 
         }
+
+
 
 
         [HttpPost("SetAllTOPENDING")]
@@ -310,6 +348,10 @@ namespace SoberPath_API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+
+
+
         [HttpGet("GetRoomDetails/{clientid}")]
         public async Task<IActionResult> GetRoomDetails(int clientid)
         {
@@ -330,8 +372,7 @@ namespace SoberPath_API.Controllers
                     buildingName = room.BuildingName,
                     roomNumber = room.RoomNumber,
                     allocatedDate = room.AllocatedDate,
-                    expectedCheckOutDate = DateTime.Parse(room.AllocatedDate ?? DateTime.Now.ToString())
-                        .AddDays(90).ToString("yyyy-MM-dd") // Assuming 90-day program
+                    expectedCheckOutDate = _context.Rehab_Admissions.Where(a => a.ClientId == clientid).Select(a => a.Expected_Dischanrge).FirstOrDefault(),
                 };
 
                 return Ok(roomDetails);
@@ -341,6 +382,8 @@ namespace SoberPath_API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+
 
         [HttpGet("GetProgress/{clientid}")]
         public async Task<IActionResult> GetProgress(int clientid)

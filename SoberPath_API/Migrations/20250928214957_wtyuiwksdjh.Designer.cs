@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoberPath_API.Context;
 
@@ -11,9 +12,11 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    partial class Sober_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250928214957_wtyuiwksdjh")]
+    partial class wtyuiwksdjh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,8 +280,8 @@ namespace SoberPath_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Admission_Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateOnly?>("Admission_Date")
+                        .HasColumnType("date");
 
                     b.Property<int?>("ApplicationId")
                         .HasColumnType("int");
@@ -289,11 +292,11 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("Dischange_status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discharged_Date")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateOnly?>("Discharged_Date")
+                        .HasColumnType("date");
 
-                    b.Property<string>("Expected_Dischanrge")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateOnly?>("Expected_Dischanrge")
+                        .HasColumnType("date");
 
                     b.Property<bool?>("IsDischarged")
                         .HasColumnType("bit");
