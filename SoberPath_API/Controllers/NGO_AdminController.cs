@@ -189,6 +189,10 @@ namespace SoberPath_API.Controllers
                         found_client.Password = newClient.Password;
 
                     }
+                    if(newClient.IsRead != null)
+                    {
+                        found_client.IsRead = newClient.IsRead;
+                    }
 
 
 
@@ -202,11 +206,15 @@ namespace SoberPath_API.Controllers
                     BadRequest("Client not found");
                 }
 
+                
+
             }
             else
             {
                 BadRequest("ID and Client objects are null");
             }
+
+
 
             await _context.SaveChangesAsync();
             return NoContent();

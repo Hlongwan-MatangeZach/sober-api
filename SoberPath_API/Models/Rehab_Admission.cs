@@ -12,11 +12,11 @@ namespace SoberPath_API.Models
 
         public int? ApplicationId   { get; set; }
 
-        public DateOnly? Admission_Date {  get; set; }
+        public string? Admission_Date {  get; set; }
 
-        public DateOnly? Expected_Dischanrge {  get; set; }
+        public string? Expected_Dischanrge {  get; set; }
 
-        public DateOnly? Discharged_Date { get; set; }
+        public string? Discharged_Date { get; set; }
 
         public string? Dischange_status { get; set; }
 

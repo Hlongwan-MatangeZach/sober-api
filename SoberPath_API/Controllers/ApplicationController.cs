@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SoberPath_API.Context;
 using SoberPath_API.Models;
 using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SoberPath_API.Controllers
 {
@@ -16,7 +17,7 @@ namespace SoberPath_API.Controllers
         [HttpGet("GetAllApplications")]
         public async Task<ActionResult> GetAllApplications()
         {
-            var applications = await _context.Applications.OrderByDescending(app => app.Id).Where(app => app.Status != null && app.ClientId > 0 && app.ClientId != null).Select(app => new
+            var applications = await _context.Applications.OrderByDescending(app => app.Id).Where(app => app.Status != null && app.ClientId > 0 && app.ClientId != null && app.Date!=null).Select(app => new
             {
 
                 status = app.Status,
@@ -24,6 +25,7 @@ namespace SoberPath_API.Controllers
                 clientid = app.ClientId,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),
                 surname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
+                date=app.Date,
 
             }).ToListAsync();
 
@@ -61,7 +63,7 @@ namespace SoberPath_API.Controllers
         public async Task<ActionResult> GetApproved()
         {
 
-            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && application.Status != null && application.Status.Equals("Approved") ||
+            var anonymous = await _context.Applications.OrderByDescending(app => app.Id).Where(application => application.ClientId != null && 
             application.Status != null && application.Status.Equals("Approved & Allocated")).Select(application => new
             {
 
@@ -72,6 +74,8 @@ namespace SoberPath_API.Controllers
                 NOK_Name = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Name).FirstOrDefault(),
                 NOK_Phone = _context.Next_Of_Kins.Where(nok => nok.ClientId == application.ClientId).Select(nok => nok.Phone_number).FirstOrDefault(),
                 id = _context.Clients.Where(cl => cl.Id == application.ClientId).Select(cl => cl.Id).FirstOrDefault(),
+                date=application.Date,
+                discharge_date=_context.Rehab_Admissions.Where(ra=>ra.ClientId==application.ClientId).Select(ra=>ra.Expected_Dischanrge).FirstOrDefault()
 
 
 

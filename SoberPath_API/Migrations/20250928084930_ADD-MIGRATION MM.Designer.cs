@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoberPath_API.Context;
 
@@ -11,9 +12,11 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    partial class Sober_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250928084930_ADD-MIGRATION MM")]
+    partial class ADDMIGRATIONMM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,9 +334,6 @@ namespace SoberPath_API.Migrations
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Occupying")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RoomNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -362,9 +362,6 @@ namespace SoberPath_API.Migrations
 
                     b.Property<TimeSpan?>("Duration")
                         .HasColumnType("time");
-
-                    b.Property<string>("RehabNotes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Session_Note")
                         .HasColumnType("nvarchar(max)");
@@ -493,9 +490,6 @@ namespace SoberPath_API.Migrations
             modelBuilder.Entity("SoberPath_API.Models.Client", b =>
                 {
                     b.HasBaseType("SoberPath_API.Models.User");
-
-                    b.Property<bool?>("IsRead")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");

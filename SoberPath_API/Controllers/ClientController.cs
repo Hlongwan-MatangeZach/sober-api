@@ -121,8 +121,8 @@ namespace SoberPath_API.Controllers
             return NoContent();
         }
 
-        [HttpPost("UpdateApplication/{clientId}/{newStatus}/{comment}")]
-        public async Task<ActionResult> UpdateApplicationStatus(int clientId, string newStatus, string comment)
+        [HttpPost("UpdateApplication/{clientId}/{newStatus}/{comment}/{rehab_id}")]
+        public async Task<ActionResult> UpdateApplicationStatus(int clientId, string newStatus, string comment,int rehab_id)
         {
 
             var application = await _context.Applications.Where(app => app.ClientId == clientId).FirstOrDefaultAsync();
@@ -136,6 +136,7 @@ namespace SoberPath_API.Controllers
             application.RejectionReason = comment;
             application.Status_Update_Date = DateTime.Now.Date.ToString();
             application.IsRead = false;
+            application.Rehab_AdminID = rehab_id;
             await _context.SaveChangesAsync();
             return NoContent();
 

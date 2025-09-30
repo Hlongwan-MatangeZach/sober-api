@@ -15,7 +15,7 @@ namespace SoberPath_API.Hobs
         {
             
             var statusupdates = await _context.Applications
-                .Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null && app.IsRead==false)
+                .Where(app => app.Social_WorkerId == id && app.Status_Update_Date != null && app.IsRead==false && app.Status!="Pending")
                 .Select(app => new
                 {
                     Id = app.Id,
@@ -26,9 +26,27 @@ namespace SoberPath_API.Hobs
                     clientSurname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
                     clientId = app.ClientId,
                     applicationId = app.Id,
-                    priority = "high",
+                    priority = "urgent",
                     timestamp = app.Status_Update_Date,
                     isRead = app.IsRead,
+                }).ToListAsync();
+
+
+            var assigedclients = await _context.Clients
+                .Where(cl => cl.Social_WorkerId == id && cl.IsRead == false )
+                .Select(client => new
+                {
+                    Id = client.Id,
+                    type = "assigned_client",
+                    title = "New Client Assigned",
+                    message = "You have a new client assigned to you",
+                    clientName = client.Name,
+                    clientSurname = client.Surname,
+                    clientId = client.Id,
+                    applicationId = (int?)null,
+                    priority = "high",
+                    timestamp = (string?)null,
+                    isRead = client.IsRead,
                 }).ToListAsync();
 
             // Get recent events for the social worker
@@ -61,7 +79,7 @@ namespace SoberPath_API.Hobs
                     }
                 }).ToListAsync();
             
-            var allNotifications = eventNotifications.Cast<object>().Concat(statusupdates.Cast<object>()).OrderByDescending(n => ((dynamic)n).timestamp).ToList();
+            var allNotifications = eventNotifications.Cast<object>().Concat(statusupdates.Cast<object>()).Concat(assigedclients.Cast<object>()).OrderByDescending(n => ((dynamic)n).timestamp).ToList();
 
 
             await Clients.Caller.SendAsync("StatusUpdates", allNotifications);
@@ -137,9 +155,18 @@ namespace SoberPath_API.Hobs
                     await _context.SaveChangesAsync();
                 }
             }
-            // Event notifications don't need persistent read status
+            else if(notificationType== "assigned_client")
+            {
+                var client = await _context.Clients.FindAsync(notificationId);
+                if(client!=null)
+                {
+                    client.IsRead = true;
+                    await _context.SaveChangesAsync();
+                }
+            }
+                // Event notifications don't need persistent read status
 
-            await Clients.Caller.SendAsync("MarkedAsRead", notificationId);
+                await Clients.Caller.SendAsync("MarkedAsRead", notificationId);
         }
 
         // Method to get only event notifications

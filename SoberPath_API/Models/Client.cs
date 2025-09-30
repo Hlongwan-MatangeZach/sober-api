@@ -8,7 +8,7 @@ namespace SoberPath_API.Models
     {     
         //foreigns keys 
         public int? Social_WorkerId { get; set; }
-
+        public bool? IsRead { get; set; }
 
 
         [JsonIgnore]

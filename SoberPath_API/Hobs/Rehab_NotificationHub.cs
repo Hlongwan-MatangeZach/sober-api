@@ -23,7 +23,7 @@ namespace SoberPath_API.Hobs
 
         public async Task Get_Unread()
         {
-            var applications = await _context.Applications.Where(app => app.IsRead == false && app.ClientId != null && app.Social_WorkerId != null).Select(app => new
+            var applications = await _context.Applications.Where(app => app.IsRead == false && app.ClientId != null && app.Social_WorkerId != null && app.Status=="Pending" ).Select(app => new
             {
                 id = app.Id,
                 name = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Name).FirstOrDefault(),

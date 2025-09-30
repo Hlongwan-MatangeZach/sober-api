@@ -530,7 +530,7 @@
   {
     "ContainingType": "SoberPath_API.Controllers.ClientController",
     "Method": "UpdateApplicationStatus",
-    "RelativePath": "api/Client/UpdateApplication/{clientId}/{newStatus}/{comment}",
+    "RelativePath": "api/Client/UpdateApplication/{clientId}/{newStatus}/{comment}/{rehab_id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -548,6 +548,11 @@
       {
         "Name": "comment",
         "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "rehab_id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -1127,7 +1132,7 @@
   {
     "ContainingType": "SoberPath_API.Controllers.Rehab_AdminController",
     "Method": "AllocateRoom",
-    "RelativePath": "api/Rehab_Admin/AllocaeRoom",
+    "RelativePath": "api/Rehab_Admin/AllocaeRoom/{discharge_date}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -1135,6 +1140,11 @@
       {
         "Name": "roomdetails",
         "Type": "SoberPath_API.Models.Room",
+        "IsRequired": true
+      },
+      {
+        "Name": "discharge_date",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
