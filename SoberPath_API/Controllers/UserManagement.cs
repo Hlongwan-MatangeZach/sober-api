@@ -49,7 +49,7 @@ namespace SoberPath_API.Controllers
             {
                 // Log the exception here (you should add logging)
                 // _logger.LogError(ex, "Error during login");
-                return StatusCode(500, new { error = "An internal server error occurred" });
+                return StatusCode(500, new { error = "An internal server error occurred :"+ex });
             }
         }
 

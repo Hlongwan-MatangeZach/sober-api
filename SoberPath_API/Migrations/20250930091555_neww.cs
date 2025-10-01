@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SoberPath_API.Migrations
 {
     /// <inheritdoc />
-    public partial class zach : Migration
+    public partial class neww : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,8 @@ namespace SoberPath_API.Migrations
                     EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    Social_WorkerId = table.Column<int>(type: "int", nullable: true)
+                    Social_WorkerId = table.Column<int>(type: "int", nullable: true),
+                    Social_Worker_Assigned_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -157,6 +158,8 @@ namespace SoberPath_API.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EndTime = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: true),
+                    creationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Social_Id = table.Column<int>(type: "int", nullable: true),
                     Client_Id = table.Column<int>(type: "int", nullable: true),
                     NGO_Id = table.Column<int>(type: "int", nullable: true),
@@ -214,9 +217,9 @@ namespace SoberPath_API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientId = table.Column<int>(type: "int", nullable: true),
                     ApplicationId = table.Column<int>(type: "int", nullable: true),
-                    Admission_Date = table.Column<DateOnly>(type: "date", nullable: true),
-                    Expected_Dischanrge = table.Column<DateOnly>(type: "date", nullable: true),
-                    Discharged_Date = table.Column<DateOnly>(type: "date", nullable: true),
+                    Admission_Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expected_Dischanrge = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discharged_Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Dischange_status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDischarged = table.Column<bool>(type: "bit", nullable: true),
                     Rehab_AdminId = table.Column<int>(type: "int", nullable: true)
@@ -245,6 +248,7 @@ namespace SoberPath_API.Migrations
                     BuildingName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AllocatedDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Occupying = table.Column<bool>(type: "bit", nullable: true),
                     ClientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

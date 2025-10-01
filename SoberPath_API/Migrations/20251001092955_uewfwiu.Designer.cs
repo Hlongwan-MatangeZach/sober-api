@@ -12,8 +12,8 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    [Migration("20250922113601_dsfdhjfk")]
-    partial class dsfdhjfk
+    [Migration("20251001092955_uewfwiu")]
+    partial class uewfwiu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,9 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("EndTime")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("NGO_AdminId")
                         .HasColumnType("int");
 
@@ -154,6 +157,9 @@ namespace SoberPath_API.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("creationDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -274,8 +280,8 @@ namespace SoberPath_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("Admission_Date")
-                        .HasColumnType("date");
+                    b.Property<string>("Admission_Date")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ApplicationId")
                         .HasColumnType("int");
@@ -286,11 +292,11 @@ namespace SoberPath_API.Migrations
                     b.Property<string>("Dischange_status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("Discharged_Date")
-                        .HasColumnType("date");
+                    b.Property<string>("Discharged_Date")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("Expected_Dischanrge")
-                        .HasColumnType("date");
+                    b.Property<string>("Expected_Dischanrge")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("IsDischarged")
                         .HasColumnType("bit");
@@ -372,10 +378,10 @@ namespace SoberPath_API.Migrations
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RoomNumber")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("Occupying")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("expectedCheckOutDate")
+                    b.Property<string>("RoomNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -403,6 +409,9 @@ namespace SoberPath_API.Migrations
 
                     b.Property<TimeSpan?>("Duration")
                         .HasColumnType("time");
+
+                    b.Property<string>("RehabNotes")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Session_Note")
                         .HasColumnType("nvarchar(max)");
@@ -535,8 +544,14 @@ namespace SoberPath_API.Migrations
                 {
                     b.HasBaseType("SoberPath_API.Models.User");
 
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("Social_Worker_Assigned_Date")
+                        .HasColumnType("datetime2");
 
                     b.HasIndex("Social_WorkerId");
 

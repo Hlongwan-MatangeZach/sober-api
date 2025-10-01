@@ -11,6 +11,7 @@ namespace SoberPath_API.Hobs
     {
         private readonly Sober_Context _context = context;
 
+
         public async Task Get_StatusUpdates(int id)
         {
 
@@ -26,9 +27,27 @@ namespace SoberPath_API.Hobs
                     clientSurname = _context.Clients.Where(cl => cl.Id == app.ClientId).Select(cl => cl.Surname).FirstOrDefault(),
                     clientId = app.ClientId,
                     applicationId = app.Id,
-                    priority = "high",
+                    priority = "urgent",
                     timestamp = app.Status_Update_Date,
                     isRead = app.IsRead,
+                }).ToListAsync();
+
+
+            var assigedclients = await _context.Clients
+                .Where(cl => cl.Social_WorkerId == id && cl.IsRead == false)
+                .Select(client => new
+                {
+                    Id = client.Id,
+                    type = "assigned_client",
+                    title = "New Client Assigned",
+                    message = "You have a new client assigned to you",
+                    clientName = client.Name,
+                    clientSurname = client.Surname,
+                    clientId = client.Id,
+                    applicationId = (int?)null,
+                    priority = "high",
+                    timestamp = (string?)null,
+                    isRead = client.IsRead,
                 }).ToListAsync();
 
             // Get recent events for the social worker
@@ -61,11 +80,12 @@ namespace SoberPath_API.Hobs
                     }
                 }).ToListAsync();
 
-            var allNotifications = eventNotifications.Cast<object>().Concat(statusupdates.Cast<object>()).OrderByDescending(n => ((dynamic)n).timestamp).ToList();
+            var allNotifications = eventNotifications.Cast<object>().Concat(statusupdates.Cast<object>()).Concat(assigedclients.Cast<object>()).OrderByDescending(n => ((dynamic)n).timestamp).ToList();
 
 
             await Clients.Caller.SendAsync("StatusUpdates", allNotifications);
         }
+
 
         public async Task Add_Event(Event new_event)
         {
@@ -134,6 +154,15 @@ namespace SoberPath_API.Hobs
                 if (eventNotification != null)
                 {
                     eventNotification.IsRead = true;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else if (notificationType == "assigned_client")
+            {
+                var client = await _context.Clients.FindAsync(notificationId);
+                if (client != null)
+                {
+                    client.IsRead = true;
                     await _context.SaveChangesAsync();
                 }
             }

@@ -152,6 +152,11 @@ namespace SoberPath_API.Controllers
                         found_client.Surname = newClient.Surname;
                     }
 
+                    if(newClient.IsRead!=null)
+                    {
+                        found_client.IsRead = newClient.IsRead;
+                    }
+
                     if (newClient.Race != null)
                     {
                         found_client.Race = newClient.Race;
@@ -364,13 +369,13 @@ namespace SoberPath_API.Controllers
             }
 
             // Remove all dependent records
-            _context.Applications.RemoveRange(socialWorker.Applications);
-            _context.ClientAssignments.RemoveRange(socialWorker.Client_Assignments);
-            _context.Sessions.RemoveRange(socialWorker.Sessions);
-            _context.Social_Worker_Schedules.RemoveRange(socialWorker.Social_Worker_Schedules);
+            _context.Applications.RemoveRange(socialWorker.Applications!);
+            _context.ClientAssignments.RemoveRange(socialWorker.Client_Assignments!);
+            _context.Sessions.RemoveRange(socialWorker.Sessions!);
+            _context.Social_Worker_Schedules.RemoveRange(socialWorker.Social_Worker_Schedules!);
 
             // If Clients should NOT be deleted (just unassigned), set their Social_WorkerId to null
-            foreach (var client in socialWorker.Clients)
+            foreach (var client in socialWorker.Clients!)
             {
                 client.Social_WorkerId = null; // Unassign clients instead of deleting them
             }

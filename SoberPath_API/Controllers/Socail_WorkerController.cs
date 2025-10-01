@@ -39,6 +39,8 @@ namespace SoberPath_API.Controllers
                 {
                     sessionType = cl.Type,
                     Date = cl.Date,
+                    session_Note= cl.Session_Note,
+                    rehabNotes=cl.RehabNotes,
                 })
                 .ToListAsync();
 

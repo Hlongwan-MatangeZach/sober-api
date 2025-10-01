@@ -407,6 +407,9 @@ namespace SoberPath_API.Migrations
                     b.Property<TimeSpan?>("Duration")
                         .HasColumnType("time");
 
+                    b.Property<string>("RehabNotes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Session_Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -537,6 +540,9 @@ namespace SoberPath_API.Migrations
             modelBuilder.Entity("SoberPath_API.Models.Client", b =>
                 {
                     b.HasBaseType("SoberPath_API.Models.User");
+
+                    b.Property<bool?>("IsRead")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("Social_WorkerId")
                         .HasColumnType("int");

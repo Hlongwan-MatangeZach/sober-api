@@ -12,8 +12,8 @@ using SoberPath_API.Context;
 namespace SoberPath_API.Migrations
 {
     [DbContext(typeof(Sober_Context))]
-    [Migration("20250928230417_qsdjfhg")]
-    partial class qsdjfhg
+    [Migration("20250930091555_neww")]
+    partial class neww
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -10,6 +10,8 @@ namespace SoberPath_API.Models
         public int? Social_WorkerId { get; set; }
         public DateTime? Social_Worker_Assigned_Date { get; set; }
 
+        public bool? IsRead { get; set; }
+
 
         [JsonIgnore]
 

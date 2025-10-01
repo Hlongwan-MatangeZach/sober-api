@@ -494,7 +494,6 @@ C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebasset
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\SoberPat.B5A5E681.Up2Date
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\SoberPath_API.dll
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\refint\SoberPath_API.dll

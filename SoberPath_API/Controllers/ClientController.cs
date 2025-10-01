@@ -107,13 +107,13 @@ namespace SoberPath_API.Controllers
             }
 
             // Remove all dependent records
-            _context.Next_Of_Kins.RemoveRange(client.Next_Of_Kins);
-            _context.Events.RemoveRange(client.Event);
-            _context.Sessions.RemoveRange(client.Sessions);
-            _context.Substances.RemoveRange(client.Substances);
-            _context.Rehab_Admissions.RemoveRange(client.Rehab_Admission);
-            _context.ClientAssignments.RemoveRange(client.Client_Assignment);
-            _context.Applications.RemoveRange(client.Application);
+            _context.Next_Of_Kins.RemoveRange(client.Next_Of_Kins!);
+            _context.Events.RemoveRange(client.Event!);
+            _context.Sessions.RemoveRange(client.Sessions!);
+            _context.Substances.RemoveRange(client.Substances!);
+            _context.Rehab_Admissions.RemoveRange(client.Rehab_Admission!);
+            _context.ClientAssignments.RemoveRange(client.Client_Assignment!);
+            _context.Applications.RemoveRange(client.Application!);
 
             // Finally, remove the client
             _context.Clients.Remove(client);
@@ -206,6 +206,10 @@ namespace SoberPath_API.Controllers
                         found_client.Password = newClient.Password;
 
                     }
+                    if (newClient.IsRead != null)
+                    {
+                        found_client.IsRead = newClient.IsRead;
+                    }
 
 
 
@@ -219,11 +223,15 @@ namespace SoberPath_API.Controllers
                     BadRequest("Client not found");
                 }
 
+
+
             }
             else
             {
                 BadRequest("ID and Client objects are null");
             }
+
+
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -327,7 +335,7 @@ namespace SoberPath_API.Controllers
             id = client.Id,
             title = "Social Worker Assignment",
             message = $"Client {client.Name} {client.Surname} assigned to Social Worker  {socialWorker.Name} {socialWorker.Surname}",
-            createdDate = client.Social_Worker_Assigned_Date.Value.ToString("yyyy-MM-dd HH:mm"),
+            createdDate = client.Social_Worker_Assigned_Date!.Value.ToString("yyyy-MM-dd HH:mm"),
             isRead = false,
             relatedClientId = client.Id,
             clientName = client.Name + " " + client.Surname

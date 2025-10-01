@@ -5,15 +5,15 @@
 namespace SoberPath_API.Migrations
 {
     /// <inheritdoc />
-    public partial class dfghjk : Migration
+    public partial class uewfwiu : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "ExpectedCheckOut",
-                table: "rooms",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsRead",
+                table: "Users",
+                type: "bit",
                 nullable: true);
         }
 
@@ -21,8 +21,8 @@ namespace SoberPath_API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ExpectedCheckOut",
-                table: "rooms");
+                name: "IsRead",
+                table: "Users");
         }
     }
 }
