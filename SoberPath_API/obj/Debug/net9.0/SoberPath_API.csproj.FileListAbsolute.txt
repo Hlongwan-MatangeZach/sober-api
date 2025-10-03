@@ -672,3 +672,4 @@ C:\Users\hlong\Downloads\sober-api\SoberPath_API\bin\Debug\net9.0\System.Net.Web
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\hlong\Downloads\sober-api\SoberPath_API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\hlong\Downloads\sober-api\SoberPath_API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
